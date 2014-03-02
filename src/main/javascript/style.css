@@ -1,0 +1,38 @@
+.cell {
+    border: 1px solid #000;
+    width: 80px;
+    height: 80px;
+    display: inline-block;
+}
+
+#main {
+    width: 100%;
+    padding-top: 50px;
+    text-align: center;
+}
+
+textarea {
+    width: 700px;
+    height: 100px;
+}
+
+.play {
+    height: 100px;
+    width: 300px;
+    margin-top: 0px;
+    float:right
+}
+
+.p {
+    background: url("img/poison.png") no-repeat;
+    background-size: 100%;
+}
+
+.f {
+    background: url("img/food.png") no-repeat;
+    background-size: 100%;
+}
+.r {
+    background: url("img/robot.png") no-repeat;
+    background-size: 100%;
+}
