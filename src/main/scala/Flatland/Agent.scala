@@ -38,14 +38,37 @@ class Agent {
 	"h1" connect ("of", 0.3)
 	"h2" connect ("ol", 0.4)
 	"h3" connect ("or", 0.8)
+
+	def bitStringToWeights(array: Array[Int]) = {
+		val split = array.grouped(bitstringpercision).toList
+		var weights:List[Double] = List()
+			println(split.toList)
+
+		for(i <- 0 to split.length - 1) {
+			var weight = 0.0
+			for(j <- 0 to split(i).length - 1) {
+
+				weight += (split(i)(j) << (split(i).length - j - 1))
+			}
+			weight /= math.pow(2, bitstringpercision)
+			weights = weights :+ weight
+		}
+
+		weights
+	}
 }
 
 object Agent {
 
 	def main(args: Array[String]) {
 		val ag = new Agent
-		println(ag.brainNetwork.neurons)
-		println(ag.brainNetwork.adjacencyList)
+		val bitarray = Array(0,0,0,1,1,1,1,1,1,0,0,1)
+
+		val weights = ag.bitStringToWeights(bitarray)
+		println(weights)
+
+		// println(ag.brainNetwork.neurons)
+		// println(ag.brainNetwork.adjacencyList)
 	}
 }
 
