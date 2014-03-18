@@ -31,6 +31,10 @@ class Agent {
 
 	"pr" connect ("h1", 0.2)
 	"pr" connect ("h2", 0.3)
+
+	"h1" connect ("of", 0.3)
+	"h2" connect ("ol", 0.4)
+	"h3" connect ("or", 0.8)
 }
 
 object Agent {
