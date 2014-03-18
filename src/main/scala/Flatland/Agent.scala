@@ -1,3 +1,4 @@
+package Flatland
 import ANN._
 class ConnectString(s: String, network:NeuralNetwork){
 
@@ -14,6 +15,8 @@ class Agent {
 	val poisonSensors = List(new Neuron((x:Double) => x>0.4, "pf"), new Neuron((x:Double) => x>0.4, "pl"), new Neuron((x:Double) => x>0.4, "pr"))
 	val hiddenNeurons = List(new Neuron((x:Double) => x> 0.4, "h1"), new Neuron((x: Double) => x>0.4, "h2"), new Neuron((x:Double) => x>0.4, "h3"))	
 	val brainNetwork = new NeuralNetwork
+
+	val bitstringpercision = 4
 
 	brainNetwork addNeurons foodSensors
 	brainNetwork addNeurons poisonSensors 

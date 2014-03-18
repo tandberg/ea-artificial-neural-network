@@ -1,5 +1,6 @@
-import scala.io.Source
-import scala.util.parsing.json._
+package Flatland
+import scala.util.Random
+import scala.collection.mutable.ListBuffer
 
 class Map(file:String) {
 	

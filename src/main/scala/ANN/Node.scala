@@ -9,7 +9,7 @@ class Node {
 			1 / (1 + math.exp(-x))
 		}
 
-		sigmoid(weights.sum)
+		sigmoid(weights.sum) >= 0.5
 	}
 
 }

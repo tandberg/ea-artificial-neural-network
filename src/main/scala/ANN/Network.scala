@@ -1,4 +1,5 @@
-import ANN._
+package ANN
+
 class NeuralNetwork(){
 
 	var adjacencyList = new AdjacencyList(List())

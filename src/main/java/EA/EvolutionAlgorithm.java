@@ -67,8 +67,8 @@ public class EvolutionAlgorithm {
     /* TODO: 3 steg med adult selection
 
         1. Bytte ut alle voksne med barn                                                                                - done
-        2. Overproduksjon av unger. Feks har population size på 10, lager 20 unger og de 10 beste blir igjen            - done
-        3. Mixing av generasjoner. Tar vare på M gamle, disse jobber mot de N nye unga.                                 - done
+        2. Overproduksjon av unger. Feks har population size pa 10, lager 20 unger og de 10 beste blir igjen            - done
+        3. Mixing av generasjoner. Tar vare pa M gamle, disse jobber mot de N nye unga.                                 - done
     */
 
     /* TODO: Parent mate selection

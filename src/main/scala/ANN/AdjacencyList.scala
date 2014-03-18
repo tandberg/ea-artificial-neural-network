@@ -1,5 +1,5 @@
 package ANN
-import ANN.Neuron
+
 class AdjacencyList(l: List[(Neuron, Neuron, Double)]){
 	def this() = this(List())
 		val list = l
