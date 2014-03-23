@@ -1,5 +1,6 @@
-package Flatland
 import ANN._
+import EA._
+import javaWorld._
 class ConnectString(s: String, network:NeuralNetwork){
 
 	def connect(label:String, weight:Double) = {
@@ -7,7 +8,7 @@ class ConnectString(s: String, network:NeuralNetwork){
 	}
 
 }
-class Agent {
+class Agent extends Genotype{
 
 	implicit def stringToLinkMap(s: String) = new ConnectString(s, brainNetwork)
 
@@ -15,8 +16,9 @@ class Agent {
 	val poisonSensors = List(new Neuron((x:Double) => x>0.4, "pf"), new Neuron((x:Double) => x>0.4, "pl"), new Neuron((x:Double) => x>0.4, "pr"))
 	val hiddenNeurons = List(new Neuron((x:Double) => x> 0.4, "h1"), new Neuron((x: Double) => x>0.4, "h2"), new Neuron((x:Double) => x>0.4, "h3"))	
 	val brainNetwork = new NeuralNetwork
-
 	val bitstringpercision = 4
+
+	val map:World = new World
 
 	brainNetwork addNeurons foodSensors
 	brainNetwork addNeurons poisonSensors 
@@ -56,6 +58,14 @@ class Agent {
 
 		weights
 	}
+
+	override def done(size: Int): Boolean = ???
+	override def fitness(): Double = ???
+	override def getArray(): Array[Int] = ???
+	override def mutate(mutationPercent: Double): Unit = ???
+	override def sum(): Double = ???
+	override def toPhenotype(): String = ???
+	override def compareTo(other: Genotype):Int = ???
 }
 
 object Agent {

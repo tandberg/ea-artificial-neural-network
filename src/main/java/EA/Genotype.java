@@ -1,3 +1,5 @@
+package EA;
+
 public abstract class Genotype implements Comparable<Genotype> {
 
     public abstract double fitness();

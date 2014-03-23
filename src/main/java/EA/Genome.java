@@ -1,3 +1,4 @@
+package EA;
 import java.util.Arrays;
 
 public class Genome extends Genotype {

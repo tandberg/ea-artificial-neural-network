@@ -1,10 +1,11 @@
+package javaWorld;
 import java.util.*;
-public class Flatland {
+public class World {
 
 	public int X, Y;
 	public String[][] map;
 
-	public Flatland() {
+	public World() {
 		map = readMap();
 		locatePlayer();
 	}
@@ -58,43 +59,43 @@ public class Flatland {
 	}
 
 
-	public static void main(String[] args) {
-		Flatland a = new Flatland();
+	// public static void main(String[] args) {
+	// 	Flatland a = new Flatland();
 
 
-		ArrayList<String> pelle = new ArrayList<String>();
-		pelle.add(a.toString());
-		a.doMove(1,0);
-		pelle.add(a.toString());
-		a.doMove(1,0);
-		pelle.add(a.toString());
-		a.doMove(1,0);
-		pelle.add(a.toString());
-		a.doMove(0,1);
-		pelle.add(a.toString());
-		a.doMove(-1,0);
-		pelle.add(a.toString());
-		a.doMove(-1,0);
-		pelle.add(a.toString());
-		a.doMove(1,0);
-		pelle.add(a.toString());
-		a.doMove(0,-1);
-		pelle.add(a.toString());
-		a.doMove(0,-1);
-		pelle.add(a.toString());
-		a.doMove(0,-1);
-		pelle.add(a.toString());
-		a.doMove(0,1);
-		pelle.add(a.toString());
-		a.doMove(0,1);
-		pelle.add(a.toString());
-		a.doMove(0,-1);
-		pelle.add(a.toString());
-		a.doMove(-1,0);
-		pelle.add(a.toString());
+	// 	ArrayList<String> pelle = new ArrayList<String>();
+	// 	pelle.add(a.toString());
+	// 	a.doMove(1,0);
+	// 	pelle.add(a.toString());
+	// 	a.doMove(1,0);
+	// 	pelle.add(a.toString());
+	// 	a.doMove(1,0);
+	// 	pelle.add(a.toString());
+	// 	a.doMove(0,1);
+	// 	pelle.add(a.toString());
+	// 	a.doMove(-1,0);
+	// 	pelle.add(a.toString());
+	// 	a.doMove(-1,0);
+	// 	pelle.add(a.toString());
+	// 	a.doMove(1,0);
+	// 	pelle.add(a.toString());
+	// 	a.doMove(0,-1);
+	// 	pelle.add(a.toString());
+	// 	a.doMove(0,-1);
+	// 	pelle.add(a.toString());
+	// 	a.doMove(0,-1);
+	// 	pelle.add(a.toString());
+	// 	a.doMove(0,1);
+	// 	pelle.add(a.toString());
+	// 	a.doMove(0,1);
+	// 	pelle.add(a.toString());
+	// 	a.doMove(0,-1);
+	// 	pelle.add(a.toString());
+	// 	a.doMove(-1,0);
+	// 	pelle.add(a.toString());
 
-		System.out.println(pelle);
-	}
+	// 	System.out.println(pelle);
+	// }
 
 
 	public static String[][] map1() {

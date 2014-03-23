@@ -1,3 +1,5 @@
+package EA;
+
 public class Tuple {
     public double from, to;
     public Tuple(double a, double b) {

@@ -1,5 +1,6 @@
-import java.util.*;
+package EA;
 
+import java.util.*;
 public class EvolutionAlgorithm {
 
     public final static Random random = new Random();
