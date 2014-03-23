@@ -14,7 +14,9 @@ class Agent extends Genotype{
 
 	val foodSensors = List(new Neuron((x:Double) => x>0.4, "ff"), new Neuron((x:Double) => x>0.4, "fl"), new Neuron((x:Double) => x>0.4, "fr"))
 	val poisonSensors = List(new Neuron((x:Double) => x>0.4, "pf"), new Neuron((x:Double) => x>0.4, "pl"), new Neuron((x:Double) => x>0.4, "pr"))
+
 	val hiddenNeurons = List(new Neuron((x:Double) => x> 0.4, "h1"), new Neuron((x: Double) => x>0.4, "h2"), new Neuron((x:Double) => x>0.4, "h3"))	
+	
 	val brainNetwork = new NeuralNetwork
 	val bitstringpercision = 4
 
@@ -59,13 +61,28 @@ class Agent extends Genotype{
 		weights
 	}
 
-	override def done(size: Int): Boolean = ???
+	override def done(size: Int): Boolean = false
 	override def fitness(): Double = ???
 	override def getArray(): Array[Int] = ???
-	override def mutate(mutationPercent: Double): Unit = ???
-	override def sum(): Double = ???
-	override def toPhenotype(): String = ???
-	override def compareTo(other: Genotype):Int = ???
+	override def mutate(mutationPercent: Double): Unit = {
+		// flip arrays bits
+	}
+
+	override def sum(): Double = {
+		//set weights from bitStringToWeights
+		//simulate
+		//return score?
+		0.0
+	}
+
+	override def toPhenotype(): String = {
+		//simulate
+		"Phoenotype of Agent"
+	}
+
+	override def compareTo(other: Genotype):Int = {
+        if (fitness() > other.fitness()) -1 else 1
+	}
 }
 
 object Agent {
