@@ -8,21 +8,25 @@ class ConnectString(s: String, network:NeuralNetwork){
 	}
 
 }
-class Agent extends Genotype{
+class Agent(genotype: List[Int]) extends Genotype{
 
 	implicit def stringToLinkMap(s: String) = new ConnectString(s, brainNetwork)
 
-	val foodSensors = List(new Neuron((x:Double) => x>0.4, "ff"), new Neuron((x:Double) => x>0.4, "fl"), new Neuron((x:Double) => x>0.4, "fr"))
-	val poisonSensors = List(new Neuron((x:Double) => x>0.4, "pf"), new Neuron((x:Double) => x>0.4, "pl"), new Neuron((x:Double) => x>0.4, "pr"))
-	val hiddenNeurons = List(new Neuron((x:Double) => x> 0.4, "h1"), new Neuron((x: Double) => x>0.4, "h2"), new Neuron((x:Double) => x>0.4, "h3"))	
+	val foodSensors = List(new Neuron("ff"), new Neuron("fl"), new Neuron("fr"))
+	val poisonSensors = List(new Neuron("pf"), new Neuron("pl"), new Neuron("pr"))
+	val hiddenNeurons = List(new Neuron("h1"), new Neuron("h2"), new Neuron("h3"))
+	val outputNeurons = List(new Neuron("of"), new Neuron("ol"), new Neuron("or"))	
 	val brainNetwork = new NeuralNetwork
 	val bitstringpercision = 4
 
 	val map:World = new World
+	
+	def this() = this(List(1,2,3,4,5,6,7))
 
 	brainNetwork addNeurons foodSensors
 	brainNetwork addNeurons poisonSensors 
 	brainNetwork addNeurons hiddenNeurons
+	brainNetwork addNeurons outputNeurons
 
 	"ff" connect ("h1", 0.4)
 	"fl" connect ("h2", 0.5)
@@ -72,10 +76,7 @@ object Agent {
 
 	def main(args: Array[String]) {
 		val ag = new Agent
-		val bitarray = Array(0,0,0,1,1,1,1,1,1,0,0,1)
 
-		val weights = ag.bitStringToWeights(bitarray)
-		println(weights)
 
 		// println(ag.brainNetwork.neurons)
 		// println(ag.brainNetwork.adjacencyList)
