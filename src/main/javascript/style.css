@@ -32,7 +32,19 @@ textarea {
     background: url("img/food.png") no-repeat;
     background-size: 100%;
 }
-.r {
-    background: url("img/robot.png") no-repeat;
+.rf {
+    background: url("img/robot_front.png") no-repeat;
+    background-size: 100%;
+}
+.rd {
+    background: url("img/robot_down.png") no-repeat;
+    background-size: 100%;
+}
+.rl {
+    background: url("img/robot_left.png") no-repeat;
+    background-size: 100%;
+}
+.rr {
+    background: url("img/robot_right.png") no-repeat;
     background-size: 100%;
 }
