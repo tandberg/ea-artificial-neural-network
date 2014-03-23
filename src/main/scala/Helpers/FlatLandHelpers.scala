@@ -6,18 +6,17 @@ object FlatLandHelpers {
 
 	def generateRandomBitString = {
 		val length = 12 * 4
-		val bitString = new ListBuffer[Int]() 
+		var bitString = Array[Int]() 
 		val random = new Random()
 		for (i <- 0 to length) {
-			bitString += random.nextInt(2)		
+			bitString = bitString :+ random.nextInt(2)	
 		}
-		bitString.toList
+		bitString
 	}
 
-	def bitStringToWeights(array: Array[Int], bitstringpercision: Int):List[Double] = {
-		val split = array.grouped(bitstringpercision).toList
-		var weights:List[Double] = List()
-			println(split.toList)
+	def bitStringToWeights(array: Array[Int], bitstringpercision: Int):Array[Double]= {
+		val split = array.grouped(bitstringpercision).toArray
+		var weights:Array[Double] = Array()
 
 		for(i <- 0 to split.length - 1) {
 			var weight = 0.0
@@ -28,8 +27,23 @@ object FlatLandHelpers {
 			weight /= math.pow(2, bitstringpercision)
 			weights = weights :+ weight
 		}
+		println(weights)
 		weights
 	}
 
+
+
+	def mutateBitString(array: Array[Int], mutationRate:Double) = {
+		val random = new Random
+
+		def flip(num: Int): Int = {
+			if (random.nextDouble() < mutationRate){
+				if (num == 0) return 1
+				else return 0
+			}
+			num
+		}
+		array map (flip _)
+	}
 
 }

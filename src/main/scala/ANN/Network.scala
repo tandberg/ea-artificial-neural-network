@@ -14,6 +14,10 @@ class NeuralNetwork(){
 		neurons = neurons :+ neuron
 	}
 
+	def clear = {
+		adjacencyList = new AdjacencyList(List())
+	}
+
 	def addLink(label:String, label2:String, weigth:Double) = {
 		val neuron1 = neurons.find((x) => x.label == label)
 		val neuron2 = neurons.find((x) => x.label == label2)
