@@ -8,7 +8,8 @@ class Neuron(val activationFunction: (Double) => Boolean, val label: String) {
 		sumOfWeights += input
 	}
 	def activate() = {
-		println("Hello")
+		println("activate called in neuron" + label)
+		activationFunction(sumOfWeights)
 	}
 	override def toString = label
 }

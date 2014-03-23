@@ -48,17 +48,35 @@ class Agent(genotype: List[Int]) extends Genotype{
 	override def done(size: Int): Boolean = ???
 	override def fitness(): Double = ???
 	override def getArray(): Array[Int] = ???
-	override def mutate(mutationPercent: Double): Unit = ???
-	override def sum(): Double = ???
-	override def toPhenotype(): String = ???
-	override def compareTo(other: Genotype):Int = ???
+	override def mutate(mutationPercent: Double): Unit = {
+		// flip arrays bits
+	}
+
+	override def sum(): Double = {
+		//set weights from bitStringToWeights
+		//simulate
+		//return score?
+		0.0
+	}
+
+	override def toPhenotype(): String = {
+		//simulate
+		"Phoenotype of Agent"
+	}
+
+	override def compareTo(other: Genotype):Int = {
+        if (fitness() > other.fitness()) -1 else 1
+	}
 }
 
 object Agent {
 
 	def main(args: Array[String]) {
 		val ag = new Agent
+		val bitarray = Array(0,0,0,1,1,1,1,1,1,0,0,1)
 
+		val weights = ag.bitStringToWeights(bitarray)
+		println(weights)
 
 		// println(ag.brainNetwork.neurons)
 		// println(ag.brainNetwork.adjacencyList)
