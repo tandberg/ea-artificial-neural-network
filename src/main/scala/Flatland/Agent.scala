@@ -1,8 +1,8 @@
 import ANN._
 import EA._
 import javaWorld._
+import Helpers.FlatLandHelpers
 class ConnectString(s: String, network:NeuralNetwork){
-
 	def connect(label:String, weight:Double) = {
 		network addLink(s, label, weight)
 	}
@@ -18,50 +18,32 @@ class Agent(genotype: List[Int]) extends Genotype{
 	val outputNeurons = List(new Neuron("of"), new Neuron("ol"), new Neuron("or"))	
 	val brainNetwork = new NeuralNetwork
 	val bitstringpercision = 4
-
 	val map:World = new World
 	
-	def this() = this(List(1,2,3,4,5,6,7))
-
 	brainNetwork addNeurons foodSensors
 	brainNetwork addNeurons poisonSensors 
 	brainNetwork addNeurons hiddenNeurons
 	brainNetwork addNeurons outputNeurons
-
-	"ff" connect ("h1", 0.4)
-	"fl" connect ("h2", 0.5)
-	"fr" connect ("h3", 0.4)
 	
-	"pf" connect ("h2", 0.2)
-	"pf" connect ("h3", 0.1)
+	def this() = this(FlatLandHelpers.generateRandomBitString)
+	val weights = FlatLandHelpers.bitStringToWeights(genotype.toArray, bitstringpercision)
 
-	"pl" connect ("h1", 0.7)
-	"pl" connect ("h3", 0.1)
+	"ff" connect ("h1", weights(0))
+	"fl" connect ("h2", weights(1))
+	"fr" connect ("h3", weights(2))
+	
+	"pf" connect ("h2", weights(3))
+	"pf" connect ("h3", weights(4))
 
-	"pr" connect ("h1", 0.2)
-	"pr" connect ("h2", 0.3)
+	"pl" connect ("h1", weights(5))
+	"pl" connect ("h3", weights(6))
 
-	"h1" connect ("of", 0.3)
-	"h2" connect ("ol", 0.4)
-	"h3" connect ("or", 0.8)
+	"pr" connect ("h1", weights(7))
+	"pr" connect ("h2", weights(8))
 
-	def bitStringToWeights(array: Array[Int]) = {
-		val split = array.grouped(bitstringpercision).toList
-		var weights:List[Double] = List()
-			println(split.toList)
-
-		for(i <- 0 to split.length - 1) {
-			var weight = 0.0
-			for(j <- 0 to split(i).length - 1) {
-
-				weight += (split(i)(j) << (split(i).length - j - 1))
-			}
-			weight /= math.pow(2, bitstringpercision)
-			weights = weights :+ weight
-		}
-
-		weights
-	}
+	"h1" connect ("of", weights(9))
+	"h2" connect ("ol", weights(10))
+	"h3" connect ("or", weights(11))
 
 	override def done(size: Int): Boolean = ???
 	override def fitness(): Double = ???
