@@ -31,8 +31,6 @@ public class World {
 			String newState = prevState;
 
 			if(prevState.equals("f")) {
-				System.out.println(prevState);
-
 				if(dx == 1) {
 					newState = "r";
 				} else if(dx == -1) {
