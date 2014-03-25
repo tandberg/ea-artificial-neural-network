@@ -11,6 +11,23 @@ class AdjacencyList(l: List[(Neuron, Neuron, Double)]){
 	def weights:List[Double] = this.list map { 
 		case (neuron1, neuron2, weight) => weight
 	}
+
+	def linkFromNeuron(neuron: Neuron):List[(Neuron,Neuron, Double)] = 
+		this.list.filter {
+			case (neuron1, neuron2, weight) => {
+				if (neuron1 == neuron) true
+				else false
+			}
+
+		} 
+	def linksToNeuron(neuron: Neuron): List[(Neuron, Neuron, Double)] = {
+		this.list.filter {
+			case (neuron1, neuron2, weight) => {
+				if (neuron2 == neuron) true
+				else false
+			}
+		}
+	}
 }
 
 object AdjacencyListTest {

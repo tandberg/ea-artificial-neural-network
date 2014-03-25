@@ -1,23 +1,21 @@
 package ANN
+import scala.collection.mutable.Queue
 
 class NeuralNetwork(){
 
 	var adjacencyList = new AdjacencyList(List())
 	
-	var neurons:List[Neuron] = List()
-
-	def addNeurons(neurons1:List[Neuron]) = {
-		neurons = neurons ::: neurons1
+	var groups:List[List[Neuron]] = List()
+	
+	def addGroup(group:List[Neuron]) = {
+		groups = groups :+ group 
 	}
 	
-	def addNeuron(neuron:Neuron) = {
-		neurons = neurons :+ neuron
-	}
+	def neurons = groups.flatten
 
 	def clear = {
 		adjacencyList = new AdjacencyList(List())
 	}
-
 	def addLink(label:String, label2:String, weigth:Double) = {
 		val neuron1 = neurons.find((x) => x.label == label)
 		val neuron2 = neurons.find((x) => x.label == label2)
@@ -26,20 +24,28 @@ class NeuralNetwork(){
 			case _ => throw new ClassCastException
 		}
 	}
+
+	def findLinks(neuron: Neuron): List[(Neuron, Neuron, Double)] = {
+		adjacencyList linksToNeuron neuron
+	}
+	def fromNeuron(link: (Neuron, Neuron, Double)) = {
+		link._1
+	}
+	def weight(link: (Neuron, Neuron, Double)): Double = {	
+		link._3
+	}
+	def search() = {
+		for (neuron <- neurons){
+			for (link <- findLinks(neuron)){
+				val from = fromNeuron(link) 
+				
+				neuron.increaseSumOfWeights((from activate) * weight(link))
+			}
+		}
+	}
 }
 
 object NeuralNetwork {
 	
-	def dummyfunction (d: Double) = {
-		(x: Double) => x > d
-	}
-
-	def main(args: Array[String]){ 
-		
-		val nn = new NeuralNetwork
-		nn addNeuron(new Neuron(dummyfunction(4)))
-		nn addNeuron(new Neuron(dummyfunction(5)))
-		println(nn.neurons)
-	}
 
 }	

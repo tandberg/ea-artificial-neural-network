@@ -27,7 +27,6 @@ object FlatLandHelpers {
 			weight /= math.pow(2, bitstringpercision)
 			weights = weights :+ weight
 		}
-		println(weights)
 		weights
 	}
 

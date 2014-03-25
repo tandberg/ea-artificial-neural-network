@@ -20,10 +20,9 @@ class Agent(genotype: Array[Int]) extends Genotype{
 	val bitstringpercision = 4
 	val map:World = new World
 
-	brainNetwork addNeurons foodSensors
-	brainNetwork addNeurons poisonSensors 
-	brainNetwork addNeurons hiddenNeurons
-	brainNetwork addNeurons outputNeurons
+	brainNetwork addGroup (foodSensors ::: poisonSensors)
+	brainNetwork addGroup hiddenNeurons
+	brainNetwork addGroup outputNeurons
 	
 	def this() = this(FlatLandHelpers.generateRandomBitString)
 
@@ -46,16 +45,14 @@ class Agent(genotype: Array[Int]) extends Genotype{
 
 		"h1" connect ("of", weights(9))
 		"h2" connect ("ol", weights(10))
+	
 		"h3" connect ("or", weights(11))
 	}
 
 	override def done(size: Int): Boolean = ???
 	override def fitness(): Double = ???
 	override def getArray(): Array[Int] = ???
-	override def mutate(mutationPercent: Double): Unit = {
-		wireUp(FlatLandHelpers.mutateBitString(genotype, mutationPercent))
-
-	}
+	override def mutate(mutationPercent: Double): Unit = wireUp(FlatLandHelpers.mutateBitString(genotype, mutationPercent))
 
 	override def sum(): Double = {
 		//set weights from bitStringToWeights
@@ -74,16 +71,14 @@ class Agent(genotype: Array[Int]) extends Genotype{
 	}
 
 	wireUp(genotype)
+	println(brainNetwork.adjacencyList)
+	println(brainNetwork.search())
 }
 
 object Agent {
 
 	def main(args: Array[String]) {
 		val ag = new Agent
-		val bitarray = Array(0,0,0,1,1,1,1,1,1,0,0,1)
-		println(ag.brainNetwork.adjacencyList)
-		ag.mutate(1)
-		println(ag.brainNetwork.adjacencyList)
 	}
 }
 
