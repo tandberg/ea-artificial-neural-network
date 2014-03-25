@@ -1,3 +1,4 @@
+
 import ANN._
 import EA._
 import javaWorld._
@@ -8,7 +9,7 @@ class ConnectString(s: String, network:NeuralNetwork){
 	}
 
 }
-class Agent(genotype: Array[Int]) extends Genotype{
+class Agent(val genotype: Array[Int]) extends Genotype{
 
 	implicit def stringToLinkMap(s: String) = new ConnectString(s, brainNetwork)
 
@@ -18,7 +19,7 @@ class Agent(genotype: Array[Int]) extends Genotype{
 	val outputNeurons = List(new Neuron("of"), new Neuron("ol"), new Neuron("or"))	
 	val brainNetwork = new NeuralNetwork
 	val bitstringpercision = 4
-	val map:World = new World
+	val world:World = new World
 
 	brainNetwork addGroup (foodSensors ::: poisonSensors)
 	brainNetwork addGroup hiddenNeurons
@@ -48,9 +49,16 @@ class Agent(genotype: Array[Int]) extends Genotype{
 	
 		"h3" connect ("or", weights(11))
 	}
+	
+	def this(o1: Agent, o2: Agent) =  {
+		this(FlatLandHelpers.cross(o1.genotype, o2.genotype, 1.0))
+	}
 
 	override def done(size: Int): Boolean = ???
-	override def fitness(): Double = ???
+	override def fitness(): Double = {
+		val lol =  world.getEnvironment
+		1.0
+	}
 	override def getArray(): Array[Int] = ???
 	override def mutate(mutationPercent: Double): Unit = wireUp(FlatLandHelpers.mutateBitString(genotype, mutationPercent))
 
@@ -68,17 +76,19 @@ class Agent(genotype: Array[Int]) extends Genotype{
 
 	override def compareTo(other: Genotype):Int = {
         if (fitness() > other.fitness()) -1 else 1
+
 	}
 
 	wireUp(genotype)
 	println(brainNetwork.adjacencyList)
-	println(brainNetwork.search())
 }
 
 object Agent {
 
 	def main(args: Array[String]) {
 		val ag = new Agent
+		val ag2 = new Agent
+		val ag3 = new Agent(ag, ag2)
 	}
 }
 

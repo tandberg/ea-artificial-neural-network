@@ -30,7 +30,24 @@ object FlatLandHelpers {
 		weights
 	}
 
-
+	def cross(parent1Array: Array[Int], parent2Array: Array[Int], crossOverRate:Double): Array[Int] = {
+		val random = new Random()
+		var childArray:Array[Int] = Array()
+		if (random.nextDouble() >= crossOverRate){
+			for (i <- 0 to parent1Array.length - 1) {
+				if (random.nextBoolean()){
+					childArray(i) = parent1Array(i)
+				}
+				else {
+					childArray(i) = parent2Array(i)
+				}
+			}
+			return childArray
+		}
+		else {
+			return parent1Array
+		}
+	}
 
 	def mutateBitString(array: Array[Int], mutationRate:Double) = {
 		val random = new Random

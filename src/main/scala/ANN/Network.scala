@@ -34,14 +34,17 @@ class NeuralNetwork(){
 	def weight(link: (Neuron, Neuron, Double)): Double = {	
 		link._3
 	}
+	def output = {
+		groups(2).map((x) => x.sumOfWeights)
+	}
 	def search() = {
 		for (neuron <- neurons){
 			for (link <- findLinks(neuron)){
 				val from = fromNeuron(link) 
-				
 				neuron.increaseSumOfWeights((from activate) * weight(link))
 			}
 		}
+		output
 	}
 }
 
