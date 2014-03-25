@@ -6,12 +6,17 @@ public class World {
 	public String[][] map;
 	private List<String> states;
 	public static final int MAX_MOVES = 50;
+	private int food;
+	private int poison;
 
 
 	public World() {
 		states = new ArrayList<String>();
 		map = readMap();
 		locatePlayer();
+
+		food = 0;
+		poison = 0;
 	}
 
 	public String[][] readMap() {
@@ -31,6 +36,11 @@ public class World {
 
 	public boolean finished() {
 		return states.size() >= MAX_MOVES;
+	}
+
+	public int[] getScores() { // [+, -]
+		int[] result = {food, poison};
+		return result;
 	}
 
 	public void doMove(int dx, int dy) {
@@ -64,6 +74,12 @@ public class World {
 				}
 			}
 
+			if(map[Y + dy][X + dx] == "p") {
+				poison++;
+			} else if(map[Y + dy][X + dx] == "f") {
+				food++;
+			}
+
 			map[Y + dy][X + dx] = map[Y][X].split("")[1] + newState;
 			map[Y][X] = "";
 			Y += dy;
@@ -77,13 +93,14 @@ public class World {
 		
 	}
 
-	public List getEnvironment() { // returns (front, left, right)
+	public List<Integer> getEnvironment() { // returns (front, left, right) [foodfront, foodleft, foodright, poisonfront, poisonleft, poisionright]
 		List<String> env = new ArrayList();
 		String state = map[Y][X].split("")[2];
 
-		System.out.println(Arrays.toString(map[Y][X].split("")));
+		int foodfront = 0, foodleft = 0, foodright = 0, poisonfront = 0, poisonleft = 0, poisionright = 0;
 
-		switch(state) {
+		try {
+			switch(state) {
 			case "f":
 				env.add(map[Y-1][X]);
 				env.add(map[Y][X-1]);
@@ -104,10 +121,39 @@ public class World {
 				env.add(map[Y-1][X]);
 				env.add(map[Y+1][X]);
 				break;
-		};
+			};
+			
+			if(env.get(0).equals("f")) {
+				foodfront = 1;
+			} else if(env.get(0).equals("p")) {
+				poisonfront = 1;
+			}
 
-		return env;
+			if(env.get(1).equals("f")) {
+				foodleft = 1;
+			} else if(env.get(1).equals("p")) {
+				poisonleft = 1;
+			}
 
+			if(env.get(2).equals("f")) {
+				foodright = 1;
+			} else if(env.get(2).equals("p")) {
+				poisonright = 1;
+			}			
+		} catch(ArrayIndexOutOfBoundsException e) {
+		}
+
+
+		int[] environment = {foodfront, foodleft, foodright, poisonfront, poisonleft, poisionright};
+
+
+		return environment;
+	}
+
+	private static int environmentHelper(String cell) {
+		if(cell.equals("f")) {
+			return 1;
+		}
 	}
 
 	public String toString() {
