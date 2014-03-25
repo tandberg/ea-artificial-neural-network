@@ -95,7 +95,7 @@ public class World {
 
 	public int[] getEnvironment() { // returns (front, left, right) [foodfront, foodleft, foodright, poisonfront, poisonleft, poisionright]
 		List<String> env = new ArrayList();
-		String state = map[Y][X].split("")[2];
+		String state = map[Y][X].split("")[1];
 
 		int foodfront = 0, foodleft = 0, foodright = 0, poisonfront = 0, poisonleft = 0, poisonright = 0;
 
