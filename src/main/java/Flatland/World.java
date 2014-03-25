@@ -1,5 +1,8 @@
 package javaWorld;
+
 import java.util.*;
+import java.io.*;
+
 public class World {
 
 	public int X, Y;
@@ -41,6 +44,57 @@ public class World {
 	public int[] getScores() { // [+, -]
 		int[] result = {food, poison};
 		return result;
+	}
+
+	public void printToFile() {
+		try {
+			PrintWriter writer = new PrintWriter("src/main/javascript/flatland/output.txt", "UTF-8");
+			writer.println(this.allStatesToJSON());
+			writer.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void doMove(char move) {
+		char prevState = map[Y][X].charAt(1);
+
+		if(prevState == 'f') {
+			if(move == 'f') {
+				doMove(0,-1);
+			} else if(move == 'l') {
+				doMove(-1, 0);
+			} else if(move == 'r') {
+				doMove(0, 1);
+			}
+		}
+		else if(prevState == 'l') {
+			if(move == 'f') {
+				doMove(-1,0);
+			} else if(move == 'l') {
+				doMove(0, 1);
+			} else if(move == 'r') {
+				doMove(0, -1);
+			}
+		}
+		else if(prevState == 'r') {
+			if(move == 'f') {
+				doMove(1,0);
+			} else if(move == 'l') {
+				doMove(0, -1);
+			} else if(move == 'r') {
+				doMove(0, 1);
+			}
+		}
+		else if(prevState == 'd') {
+			if(move == 'f') {
+				doMove(0, 1);
+			} else if(move == 'l') {
+				doMove(1, 0);
+			} else if(move == 'r') {
+				doMove(-1, 0);
+			}
+		}
 	}
 
 	public void doMove(int dx, int dy) {
@@ -174,55 +228,6 @@ public class World {
 	public String allStatesToJSON() {
 		return states.toString();
 	}
-
-	public static void main(String[] args) {
-		World a = new World();
-
-		// System.out.println(a);
-		// System.out.println(a.getEnvironment());
-
-
-		ArrayList<String> pelle = new ArrayList<String>();
-		pelle.add(a.toString());
-		a.doMove(1,0);
-		pelle.add(a.toString());
-		a.doMove(1,0);
-		pelle.add(a.toString());
-		a.doMove(1,0);
-		pelle.add(a.toString());
-		a.doMove(1,0);
-
-		pelle.add(a.toString());
-		a.doMove(0,-1);
-		pelle.add(a.toString());
-		a.doMove(0,-1);
-		pelle.add(a.toString());
-		a.doMove(0,-1);
-		pelle.add(a.toString());
-		a.doMove(0,-1);
-
-		pelle.add(a.toString());
-		a.doMove(1,0);
-		pelle.add(a.toString());
-		a.doMove(1,0);
-		pelle.add(a.toString());
-		a.doMove(1,0);
-		pelle.add(a.toString());
-		a.doMove(1,0);
-
-		pelle.add(a.toString());
-		a.doMove(0,1);
-		pelle.add(a.toString());
-		a.doMove(0,1);
-		pelle.add(a.toString());
-		a.doMove(0,1);
-		pelle.add(a.toString());
-		a.doMove(0,1);
-
-		System.out.println(pelle);
-
-	}
-
 
 	public static String[][] map1() {
 		String[][] map = {
