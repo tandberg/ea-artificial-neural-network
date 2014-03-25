@@ -4,8 +4,12 @@ public class World {
 
 	public int X, Y;
 	public String[][] map;
+	private List<String> states;
+	public static final int MAX_MOVES = 50;
+
 
 	public World() {
+		states = new ArrayList<String>();
 		map = readMap();
 		locatePlayer();
 	}
@@ -23,6 +27,10 @@ public class World {
 				}
 			}
 		}
+	}
+
+	public boolean finished() {
+		return states.size() >= MAX_MOVES;
 	}
 
 	public void doMove(int dx, int dy) {
@@ -60,6 +68,9 @@ public class World {
 			map[Y][X] = "";
 			Y += dy;
 			X += dx;
+
+			states.add(this.toString());
+
 		} catch(ArrayIndexOutOfBoundsException e) {
 			System.out.println("Illegal move");
 		}
@@ -120,6 +131,9 @@ public class World {
 		return sb.toString();
 	}
 
+	public String allStatesToJSON() {
+		return states.toString();
+	}
 
 	public static void main(String[] args) {
 		World a = new World();
