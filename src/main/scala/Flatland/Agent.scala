@@ -1,3 +1,4 @@
+package Flatland
 
 import ANN._
 import EA._
