@@ -176,47 +176,4 @@ public class Selection {
         }
         return sum;
     }
-
-
-
-
-
-
-    public static void main(String[] args) {
-
-//        double[] arr = {2,4,4,4,5,5,7,9};
-//        System.out.println(standard_diviasion(arr));
-//        int[] arr = {1,0,0};
-//        int[] arr2 = {1,1,0};
-//        int[] arr3 = {0,0,0};
-//        int[] arr4 = {1,1,1};
-//
-//        ArrayList<Genotype> pop = new ArrayList<Genotype>();
-//
-//        Genotype g1 = new Genome(arr);
-//        Genotype g2 = new Genome(arr2);
-//        Genotype g3 = new Genome(arr3);
-//        Genotype g4 = new Genome(arr4);
-//
-//        pop.add(g1);
-//        pop.add(g2);
-//        pop.add(g3);
-//        pop.add(g4);
-//
-//        System.out.println(Arrays.toString(sigmaScaling(pop)));
-//
-//        System.out.println("wheel: " + Arrays.toString(fitnessProportionate(pop)));
-//
-//        System.out.println(rouletteWheel(fitnessProportionate(pop), pop));
-//        System.out.println("second");
-//
-//        System.out.println(rouletteWheel(fitnessProportionate(pop), pop));
-//        System.out.println("third");
-//
-//        System.out.println(rouletteWheel(fitnessProportionate(pop), pop));
-//
-//        System.out.println("population: " + pop);
-
-    }
-
 }

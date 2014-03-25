@@ -1,4 +1,4 @@
-package javaWorld;
+package Flatland;
 
 import java.util.*;
 import java.io.*;
@@ -17,6 +17,8 @@ public class World {
 		states = new ArrayList<String>();
 		map = readMap();
 		locatePlayer();
+
+		states.add(this.toString());
 
 		food = 0;
 		poison = 0;
@@ -65,7 +67,7 @@ public class World {
 			} else if(move == 'l') {
 				doMove(-1, 0);
 			} else if(move == 'r') {
-				doMove(0, 1);
+				doMove(1, 0);
 			}
 		}
 		else if(prevState == 'l') {
@@ -100,13 +102,16 @@ public class World {
 	public void doMove(int dx, int dy) {
 		try {
 			char prevState = map[Y][X].charAt(1);
-			char newState = prevState;
+			char newState = 'f';
+
 
 			if(prevState == 'f') {
 				if(dx == 1) {
 					newState = 'r';
 				} else if(dx == -1) {
 					newState = 'l';
+				} else {
+					newState = 'f';
 				}
 			} else if(prevState == 'r') {
 				if(dy == 1) {
@@ -114,19 +119,29 @@ public class World {
 				} else if(dy == -1) {
 					newState = 'f';
 				}
+				else {
+					newState = 'r';
+				}
 			} else if(prevState == 'd') {
 				if(dx == 1) {
 					newState = 'r';
 				} else if(dx == -1) {
 					newState = 'l';
 				}
-			} else if(prevState == 'l') {
-				if(dy == 1) {
-					newState = 'f';
-				} else if(dy == -1) {
+				else {
 					newState = 'd';
 				}
+			} else if(prevState == 'l') {
+				if(dy == 1) {
+					newState = 'd';
+				} else if(dy == -1) {
+					newState = 'f';
+				} else {
+					newState = 'l';
+				}
 			}
+			System.out.println(newState);
+
 
 			if(map[Y + dy][X + dx].equals("p")) {
 				poison++;
@@ -148,7 +163,7 @@ public class World {
 	}
 
 	public int[] getEnvironment() { // returns (front, left, right) [foodfront, foodleft, foodright, poisonfront, poisonleft, poisionright]
-		List<String> env = new ArrayList();
+		List<String> env = new ArrayList<String>();
 		String state = map[Y][X].split("")[1];
 
 		int foodfront = 0, foodleft = 0, foodright = 0, poisonfront = 0, poisonleft = 0, poisonright = 0;
@@ -241,5 +256,25 @@ public class World {
 		    {"", "", "", "", "", "", "", ""}
 		};
 		return map;
+	}
+
+	public static void main(String[] args) {
+		World w = new World();
+		w.doMove('l');
+		w.doMove('f');
+		w.doMove('r');
+		w.doMove('f');
+		w.doMove('f');
+		w.doMove('r');
+		w.doMove('f');
+		w.doMove('f');
+		w.doMove('r');
+		w.doMove('f');
+		w.doMove('f');
+		w.doMove('f');
+		w.doMove('l');
+		w.doMove('l');
+
+		w.printToFile();
 	}
 }
