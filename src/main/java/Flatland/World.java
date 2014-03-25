@@ -99,42 +99,42 @@ public class World {
 
 	public void doMove(int dx, int dy) {
 		try {
-			String prevState = map[Y][X].split("")[2];
-			String newState = prevState;
+			char prevState = map[Y][X].charAt(1);
+			char newState = prevState;
 
-			if(prevState.equals("f")) {
+			if(prevState == 'f') {
 				if(dx == 1) {
-					newState = "r";
+					newState = 'r';
 				} else if(dx == -1) {
-					newState = "l";
+					newState = 'l';
 				}
-			} else if(prevState.equals("r")) {
+			} else if(prevState == 'r') {
 				if(dy == 1) {
-					newState = "d";
+					newState = 'd';
 				} else if(dy == -1) {
-					newState = "f";
+					newState = 'f';
 				}
-			} else if(prevState.equals("d")) {
+			} else if(prevState == 'd') {
 				if(dx == 1) {
-					newState = "r";
+					newState = 'r';
 				} else if(dx == -1) {
-					newState = "l";
+					newState = 'l';
 				}
-			} else if(prevState.equals("l")) {
+			} else if(prevState == 'l') {
 				if(dy == 1) {
-					newState = "f";
+					newState = 'f';
 				} else if(dy == -1) {
-					newState = "d";
+					newState = 'd';
 				}
 			}
 
-			if(map[Y + dy][X + dx] == "p") {
+			if(map[Y + dy][X + dx].equals("p")) {
 				poison++;
-			} else if(map[Y + dy][X + dx] == "f") {
+			} else if(map[Y + dy][X + dx].equals("f")) {
 				food++;
 			}
 
-			map[Y + dy][X + dx] = map[Y][X].split("")[1] + newState;
+			map[Y + dy][X + dx] = "r" + newState;
 			map[Y][X] = "";
 			Y += dy;
 			X += dx;
