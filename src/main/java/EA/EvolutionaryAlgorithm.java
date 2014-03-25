@@ -1,12 +1,12 @@
 package EA;
 
 import java.util.*;
-public class EvolutionAlgorithm {
+public class EvolutionaryAlgorithm {
 
     public final static Random random = new Random();
 
-    private final static int POPULATION                 = 30;               // Number of genomes
-    private final static int SIZE                       = 40;               // Number of bits
+    private final static int POPULATION                 = 30;               // Size of the population
+    private final static int SIZE                       = 40;               // Number of bits. 0 and 1 in each individual
     private final static int MAX_ITERATIONS             = 100;
     private final static int OVER_PRODUCTION_CHILDREN   = POPULATION * 2;
     private final static int ELITISM                    = 5;
@@ -15,43 +15,38 @@ public class EvolutionAlgorithm {
     private final static double EPSILON                 = 0.2;
     public  final static double CROSSOVER_RATE          = 0.2;
 
-    public final static int SYMBOLSET_SIZE              = 20;
-    private final static int SEQUENCE_LENGTH            = 199;
-
-    public final static boolean USE_LOCAL               = true;
-    public final static boolean USE_RANDOM_TARGET       = true;
-    public final static int[] RANDOM_TARGET             = {0,1,1,1,0,0,1,0,1,1,1,0,0,1,1,0,1,1,0,0,0,1,1,1,1,0,1,1,0,0,0,1,0,0,0,0,1,1,1,1};
-
-
-
-    private static int PROBLEM_TYPE;
     private static int PARENT_MATE_SELECTION_MECHANISM;
     private static int ADULT_SELECTION;
 
     private List<Genotype> population;
     private Statistics statistics;
 
-    public EvolutionAlgorithm() {
+    private static boolean SELECT_USE_CASES             = false;
+    private static boolean USE_STATISTICS               = false;
 
-        statistics = new Statistics();
+    public EvolutionaryAlgorithm() {
 
-        selectUsecases();
+        if(USE_STATISTICS)
+            statistics = new Statistics();
+
+        if(SELECT_USE_CASES) {
+            selectUsecases();
+        } 
+        else {
+            PARENT_MATE_SELECTION_MECHANISM = 3;
+            ADULT_SELECTION = 3;
+        }
+        
         initializePopulation();
         runLoop();
 
-        System.out.println("\n"+ statistics);
+        if(USE_STATISTICS)
+            System.out.println("\n"+ statistics);
     }
 
     private void selectUsecases() {
         Scanner sc = new Scanner(System.in);
         int selection;
-        do {
-            System.out.println("Select problem: \n1. One-max\n2. Surprising Sequences");
-            selection = sc.nextInt();
-            System.out.println(selection >= 1 && selection <= 2);
-        } while (!(selection >= 1 && selection <= 2));
-        PROBLEM_TYPE = selection;
-
         do {
             System.out.println("Parent mate selection: \n1. Fitness-proportionate\n2. Sigma-scaling\n3. Tournament selection\n4. Boltzmann selection");
             selection = sc.nextInt();
@@ -65,26 +60,13 @@ public class EvolutionAlgorithm {
         ADULT_SELECTION = selection;
     }
 
-    /* TODO: 3 steg med adult selection
-
-        1. Bytte ut alle voksne med barn                                                                                - done
-        2. Overproduksjon av unger. Feks har population size pa 10, lager 20 unger og de 10 beste blir igjen            - done
-        3. Mixing av generasjoner. Tar vare pa M gamle, disse jobber mot de N nye unga.                                 - done
-    */
-
-    /* TODO: Parent mate selection
-
-        1. fitness-proportionate  - done
-        2. sigma-scaling
-        3. tournament selection
-        4. ?????
-
-    */
-
     private void runLoop() {
         int iteration = 0;
-        statistics.updateStatistics(population);
-        while(!complete() && MAX_ITERATIONS > (++iteration)) {
+
+        if(USE_STATISTICS)
+            statistics.updateStatistics(population);
+        
+        while(MAX_ITERATIONS > (++iteration)) {
 
             List<Genotype> children = new ArrayList<Genotype>();
             Tuple[] wheel;
@@ -145,42 +127,20 @@ public class EvolutionAlgorithm {
                     break;
                 default: System.exit(2);
             }
-            EvolutionAlgorithm.evolveChildren(children);
+            EvolutionaryAlgorithm.evolveChildren(children);
 
+            if(USE_STATISTICS)
+                statistics.updateStatistics(population);
 
-            statistics.updateStatistics(population);
-//            System.out.println(population);
-            System.out.println("Iteration " + iteration + ": max = " + statistics.getMax(iteration) + ", avg = " + statistics.getAvg(iteration) + ", std = " + statistics.getStd(iteration) + "\tbest: " + statistics.getBest(iteration));
         }
     }
 
     private Genotype newChild(Genotype parent1, Genotype parent2) {
-        switch (PROBLEM_TYPE) {
-            case 1:
-                return new Genome(parent1, parent2);
-            case 2:
-                return new SurprisingSequences(parent1, parent2);
-        }
-        return null;
+        return new Agent(parent1, parent2);
     }
 
     private Genotype newRandomChild() {
-        switch (PROBLEM_TYPE) {
-            case 1:
-                return new Genome(SIZE);
-            case 2:
-                return new SurprisingSequences(SEQUENCE_LENGTH);
-        }
-        return null;
-    }
-
-    private boolean complete() {
-        for (Genotype genome : population) {
-            if(genome.done(SIZE)) {
-                return true;
-            }
-        }
-        return false;
+        return new Agent(SIZE);
     }
 
     private void initializePopulation() {
@@ -190,9 +150,8 @@ public class EvolutionAlgorithm {
         }
     }
 
-
     public String toString() {
-        return "EvolutionAlgorithm";
+        return "Evolutionary Algorithm, population size: " + population.size();;
     }
 
     public static void evolveChildren(List<Genotype> children) {
@@ -202,6 +161,6 @@ public class EvolutionAlgorithm {
     }
 
     public static void main(String[] args) {
-        new EvolutionAlgorithm();
+        new EvolutionaryAlgorithm();
     }
 }
