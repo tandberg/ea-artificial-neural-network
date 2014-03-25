@@ -93,11 +93,11 @@ public class World {
 		
 	}
 
-	public List<Integer> getEnvironment() { // returns (front, left, right) [foodfront, foodleft, foodright, poisonfront, poisonleft, poisionright]
+	public int[] getEnvironment() { // returns (front, left, right) [foodfront, foodleft, foodright, poisonfront, poisonleft, poisionright]
 		List<String> env = new ArrayList();
 		String state = map[Y][X].split("")[2];
 
-		int foodfront = 0, foodleft = 0, foodright = 0, poisonfront = 0, poisonleft = 0, poisionright = 0;
+		int foodfront = 0, foodleft = 0, foodright = 0, poisonfront = 0, poisonleft = 0, poisonright = 0;
 
 		try {
 			switch(state) {
@@ -144,16 +144,10 @@ public class World {
 		}
 
 
-		int[] environment = {foodfront, foodleft, foodright, poisonfront, poisonleft, poisionright};
+		int[] environment = {foodfront, foodleft, foodright, poisonfront, poisonleft, poisonright};
 
 
 		return environment;
-	}
-
-	private static int environmentHelper(String cell) {
-		if(cell.equals("f")) {
-			return 1;
-		}
 	}
 
 	public String toString() {
