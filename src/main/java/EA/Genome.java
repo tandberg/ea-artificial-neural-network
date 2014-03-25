@@ -1,5 +1,6 @@
 package EA;
 import java.util.Arrays;
+import Flatland.*;
 
 public class Genome extends Genotype {
 
@@ -12,7 +13,7 @@ public class Genome extends Genotype {
 
     private void randomize() {
         for (int i = 0; i < array.length; i++) {
-            array[i] = EvolutionAlgorithm.random.nextInt(2);
+            array[i] = EvolutionaryAlgorithm.random.nextInt(2);
         }
     }
 
@@ -23,9 +24,9 @@ public class Genome extends Genotype {
 
     public Genome(Genotype parent1, Genotype parent2) {
 
-        if(EvolutionAlgorithm.random.nextDouble() >= EvolutionAlgorithm.CROSSOVER_RATE) {
+        if(EvolutionaryAlgorithm.random.nextDouble() >= EvolutionaryAlgorithm.CROSSOVER_RATE) {
 
-            if(EvolutionAlgorithm.random.nextBoolean()) {
+            if(EvolutionaryAlgorithm.random.nextBoolean()) {
                 this.array = Arrays.copyOf(parent1.getArray(), parent1.getArray().length);
             } else {
                 this.array = Arrays.copyOf(parent2.getArray(), parent2.getArray().length);
@@ -38,7 +39,7 @@ public class Genome extends Genotype {
         int[] child_arr = new int[parent1_arr.length];
 
         for (int i = 0; i < child_arr.length; i++) {
-            if(EvolutionAlgorithm.random.nextBoolean()) {
+            if(EvolutionaryAlgorithm.random.nextBoolean()) {
                 child_arr[i] = parent1_arr[i];
             } else {
                 child_arr[i] = parent2_arr[i];
@@ -62,9 +63,9 @@ public class Genome extends Genotype {
 
     public double sum() {
         double sum = 0;
-        if(EvolutionAlgorithm.USE_RANDOM_TARGET) {
+        if(EvolutionaryAlgorithm.USE_RANDOM_TARGET) {
             for (int i = 0; i < array.length; i++) {
-                if(array[i] == EvolutionAlgorithm.RANDOM_TARGET[i]) {
+                if(array[i] == EvolutionaryAlgorithm.RANDOM_TARGET[i]) {
                     sum += 1;
                 }
             }
@@ -83,7 +84,7 @@ public class Genome extends Genotype {
 
     public void mutate(double mutationPercent) {
         for (int i = 0; i < array.length; i++) {
-            double random = EvolutionAlgorithm.random.nextDouble();
+            double random = EvolutionaryAlgorithm.random.nextDouble();
             if(random <= mutationPercent) {
                 flip(i);
             }

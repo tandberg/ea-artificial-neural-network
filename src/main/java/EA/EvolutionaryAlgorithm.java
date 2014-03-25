@@ -1,6 +1,8 @@
 package EA;
 
 import java.util.*;
+import Flatland.*;
+
 public class EvolutionaryAlgorithm {
 
     public final static Random random = new Random();
@@ -136,11 +138,11 @@ public class EvolutionaryAlgorithm {
     }
 
     private Genotype newChild(Genotype parent1, Genotype parent2) {
-        return new Agent(parent1, parent2);
+        return null; //return new Agent(parent1, parent2);
     }
 
     private Genotype newRandomChild() {
-        return new Agent(SIZE);
+        return new Agent();
     }
 
     private void initializePopulation() {
@@ -151,7 +153,7 @@ public class EvolutionaryAlgorithm {
     }
 
     public String toString() {
-        return "Evolutionary Algorithm, population size: " + population.size();;
+        return "Evolutionary Algorithm, population size: " + population.size();
     }
 
     public static void evolveChildren(List<Genotype> children) {

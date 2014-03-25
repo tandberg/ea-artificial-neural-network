@@ -50,14 +50,14 @@ public class Selection {
 
         List<Genotype> tournament_members = new ArrayList<Genotype>();
         for (int j = 0; j < k; j++) {
-            tournament_members.add(population.get(EvolutionAlgorithm.random.nextInt(population.size())));
+            tournament_members.add(population.get(EvolutionaryAlgorithm.random.nextInt(population.size())));
         }
         Collections.sort(tournament_members);
 
-        if(EvolutionAlgorithm.random.nextDouble() <= 1 - epsilon) {
+        if(EvolutionaryAlgorithm.random.nextDouble() <= 1 - epsilon) {
             return tournament_members.get(0);
         } else {
-            return tournament_members.get(EvolutionAlgorithm.random.nextInt(tournament_members.size()));
+            return tournament_members.get(EvolutionaryAlgorithm.random.nextInt(tournament_members.size()));
         }
 
     }
@@ -138,7 +138,7 @@ public class Selection {
 
     // Helper methods
     public static Genotype rouletteWheel(Tuple[] wheel, List<Genotype> population) {
-        double random = EvolutionAlgorithm.random.nextDouble();
+        double random = EvolutionaryAlgorithm.random.nextDouble();
 
         for (int i = 0; i < wheel.length; i++) {
             if(random > wheel[i].from && random <= wheel[i].to) {
