@@ -12,6 +12,9 @@ public class World {
 	private int food;
 	private int poison;
 
+	private static final double FOOD_PERCENT = 0.5;
+	private static final double POISON_PERCENT = 0.5;
+
 
 	public World() {
 		states = new ArrayList<String>();
@@ -25,7 +28,7 @@ public class World {
 	}
 
 	public String[][] readMap() {
-		return map1();
+		return map1(); //createMap();
 	}
 
 	public void locatePlayer() {
@@ -164,33 +167,34 @@ public class World {
 
 	public int[] getEnvironment() { // returns (front, left, right) [foodfront, foodleft, foodright, poisonfront, poisonleft, poisionright]
 		List<String> env = new ArrayList<String>();
-		String state = map[Y][X].split("")[1];
+		char state = map[Y][X].charAt(1);
 
 		int foodfront = 0, foodleft = 0, foodright = 0, poisonfront = 0, poisonleft = 0, poisonright = 0;
 
 		try {
 			switch(state) {
-			case "f":
+			case 'f':
 				env.add(map[Y-1][X]);
 				env.add(map[Y][X-1]);
 				env.add(map[Y][X+1]);
 				break;
-			case "d":
+			case 'd':
 				env.add(map[Y-1][X]);
 				env.add(map[Y][X+1]);
 				env.add(map[Y][X-1]);
 				break;
-			case "l":
+			case 'l':
 				env.add(map[Y][X-1]);
 				env.add(map[Y+1][X]);
 				env.add(map[Y-1][X]);
 				break;
-			case "r":
+			case 'r':
 				env.add(map[Y][X+1]);
 				env.add(map[Y-1][X]);
 				env.add(map[Y+1][X]);
 				break;
 			};
+
 			
 			if(env.get(0).equals("f")) {
 				foodfront = 1;
@@ -244,6 +248,29 @@ public class World {
 		return states.toString();
 	}
 
+	public static String[][] createMap() {
+		int mapsize = 8;
+		String[][] map = new String[mapsize][mapsize];
+		Random r = new Random();
+		for(int i = 0; i < mapsize; i++) {
+			for(int j = 0; j < mapsize; j++) {
+
+				String tmp = "";
+				if(r.nextDouble() < POISON_PERCENT) {
+					tmp = "p";
+				}
+				if(r.nextDouble() < FOOD_PERCENT) {
+					tmp = "f";
+				}
+				map[i][j] = tmp;
+			}
+		}
+
+		map[3][3] = "rf";
+
+		return map;
+	}
+
 	public static String[][] map1() {
 		String[][] map = {
 		    {"", "", "", "p", "", "", "", ""},
@@ -260,20 +287,8 @@ public class World {
 
 	public static void main(String[] args) {
 		World w = new World();
-		w.doMove('l');
-		w.doMove('f');
-		w.doMove('r');
-		w.doMove('f');
-		w.doMove('f');
-		w.doMove('r');
-		w.doMove('f');
-		w.doMove('f');
-		w.doMove('r');
-		w.doMove('f');
-		w.doMove('f');
-		w.doMove('f');
-		w.doMove('l');
-		w.doMove('l');
+
+		System.out.println(Arrays.toString(w.getEnvironment()));
 
 		w.printToFile();
 	}
