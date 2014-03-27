@@ -69,4 +69,16 @@ object FlatLandHelpers {
 		}
 		array map (flip _)
 	}
+
+
+	def indexToMove(index: Int):Char = {
+		if (index == 0){
+			return 'f'
+		}
+		else if (index == 1)
+			return 'l'
+		else 
+			return 'r'
+	}
+
 }

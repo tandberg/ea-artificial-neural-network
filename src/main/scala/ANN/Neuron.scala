@@ -1,6 +1,6 @@
 package ANN
 class Neuron(val activationFunction: (Double) => Boolean, val label: String) {
-	var sumOfWeights:Double = 0.0 
+	var sumOfWeights:Double = -0.4 
 
 	def this(label:String) = this((x) => 0.5 <= (1/(1 + math.exp(-x))), label)
 
