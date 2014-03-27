@@ -138,7 +138,7 @@ public class EvolutionaryAlgorithm {
     }
 
     private Genotype newChild(Genotype parent1, Genotype parent2) {
-        return null; //return new Agent(parent1, parent2);
+        return new Agent(parent1, parent2, CROSSOVER_RATE);
     }
 
     private Genotype newRandomChild() {
