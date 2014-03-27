@@ -1,6 +1,7 @@
 package Flatland
 
 import ANN._
+import scala.util.Random
 import EA._
 import Helpers.FlatLandHelpers
 class ConnectString(s: String, network:NeuralNetwork){
@@ -56,13 +57,26 @@ class Agent(val genotype: Array[Int]) extends Genotype{
 
 	override def done(size: Int): Boolean = ???
 	override def fitness(): Double = {
-		val lol =  world.getEnvironment
-		inputToSensorNeurons(lol)
-		println(lol.toList)
-		world.doMove(FlatLandHelpers.indexToMove(brainNetwork.search))
+		val random = new Random()
+		while (!world.finished){
+			val lol =  world.getEnvironment
+			inputToSensorNeurons(lol)
+			println(lol.toList)
+			val out = brainNetwork.search
+			var index = out._2
+			var listen = out._1
+			println(listen)
+			if (listen == List(-1.0, -1.0, -1.0)){		
+				index = random.nextInt(3)
+			}
+			world.doMove(FlatLandHelpers.indexToMove(index))
+			brainNetwork.resetNeurons
+		}
 		world.printToFile
-		1.0
+		val scores = world.getScores	
+		scores(0) - scores(1)
 	}
+
 	override def getArray(): Array[Int] = ???
 	override def mutate(mutationPercent: Double): Unit = wireUp(FlatLandHelpers.mutateBitString(genotype, mutationPercent))
 
@@ -103,7 +117,7 @@ object Agent {
 		val ag = new Agent
 		val ag2 = new Agent
 		val ag3 = new Agent(ag, ag2)
-		ag3.fitness
+		println(ag3.fitness)
 	}
 }
 
