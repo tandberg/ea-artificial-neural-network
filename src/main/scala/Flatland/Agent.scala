@@ -50,7 +50,7 @@ class Agent(val genotype: Array[Int]) extends Genotype{
 		"h3" connect ("or", weights(11))
 	}
 	
-	def this(o1: Agent, o2: Agent, crossOverRate:Int) =  {
+	def this(o1: Agent, o2: Agent, crossOverRate:Double) =  {
 		this(FlatLandHelpers.cross(o1.genotype, o2.genotype, crossOverRate))
 	}
 
@@ -115,7 +115,7 @@ object Agent {
 	def main(args: Array[String]) {
 		val ag = new Agent
 		val ag2 = new Agent
-		val ag3 = new Agent(ag, ag2)
+		val ag3 = new Agent(ag, ag2, 1.0)
 		println(ag3.fitness)
 	}
 }
