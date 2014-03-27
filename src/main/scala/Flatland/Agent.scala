@@ -27,32 +27,31 @@ class Agent(val genotype: Array[Int]) extends Genotype{
 	brainNetwork addGroup outputNeurons
 	
 	def this() = this(FlatLandHelpers.generateRandomBitString)
-
 	def wireUp(bitString: Array[Int]) = {
 		brainNetwork clear
 		val weights = FlatLandHelpers.bitStringToWeights(bitString, bitstringpercision)
 
-		"ff" connect ("h1", 1.0)
-		"fl" connect ("h2", 1.0)
-		"fr" connect ("h3", 1.0)
+		"ff" connect ("h1", weights(0))
+		"fl" connect ("h2", weights(1))
+		"fr" connect ("h3", weights(2))
 		
-		"pf" connect ("h2", 0.5)
-		"pf" connect ("h3", 0.5)
+		"pf" connect ("h2", weights(3))
+		"pf" connect ("h3", weights(4))
 
-		"pl" connect ("h1", 0.5)
-		"pl" connect ("h3", 0.5)
+		"pl" connect ("h1", weights(5))
+		"pl" connect ("h3", weights(6))
 
-		"pr" connect ("h1", 0.5)
-		"pr" connect ("h2", 0.5)
+		"pr" connect ("h1", weights(7))
+		"pr" connect ("h2", weights(8))
 
-		"h1" connect ("of", 1.0)
-		"h2" connect ("ol", 1.0)
+		"h1" connect ("of", weights(9))
+		"h2" connect ("ol", weights(10))
 	
-		"h3" connect ("or", 1.0)
+		"h3" connect ("or", weights(11))
 	}
 	
-	def this(o1: Agent, o2: Agent) =  {
-		this(FlatLandHelpers.cross(o1.genotype, o2.genotype, 1.0))
+	def this(o1: Agent, o2: Agent, crossOverRate:Int) =  {
+		this(FlatLandHelpers.cross(o1.genotype, o2.genotype, crossOverRate))
 	}
 
 	override def done(size: Int): Boolean = ???
