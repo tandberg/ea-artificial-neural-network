@@ -75,12 +75,13 @@ class Agent(val genotype: Array[Int]) extends Genotype{
 			world.doMove(FlatLandHelpers.indexToMove(index))
 			brainNetwork.resetNeurons
 		}
-		world.printToFile
 		val scores = world.getScores	
 		scores(0) - scores(1)
 	}
 
-	override def getArray(): Array[Int] = ???
+	override def getArray(): Array[Int] = {
+		genotype
+	}
 	override def mutate(mutationPercent: Double): Unit = wireUp(FlatLandHelpers.mutateBitString(genotype, mutationPercent))
 
 	override def sum(): Double = {
@@ -109,6 +110,10 @@ class Agent(val genotype: Array[Int]) extends Genotype{
 	override def compareTo(other: Genotype):Int = {
         if (fitness() > other.fitness()) -1 else 1
 
+	}
+	
+	def printToFile = {
+		world.printToFile
 	}
 
 	wireUp(genotype)
