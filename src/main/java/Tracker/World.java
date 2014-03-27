@@ -1,8 +1,9 @@
-package tracker;
+package TrackerGame;
 
 import java.util.*;
 import java.io.*;
-public class TrackerWorld implements TrackerInterface {
+
+public class World {
 
 	private final static int AGENT_SIZE = 5;
 	private final static int SHADOW_SENSORS = 5;
@@ -13,16 +14,25 @@ public class TrackerWorld implements TrackerInterface {
 	private final static int ARENA_WIDTH = 30;
 	private final static int ARENA_HEIGHT = 15;
 
+	private List<String> states;
+
 	private int timestamp;
 	private int agentLeftPos;
 	private int enemyLeftPos;
 	private int enemyY;
 	private int enemySize;
 	private int[][] arena;
+	private int score_hits;
 
-	public TrackerWorld() {
+	public World() {
 		timestamp = 0;
+		score_hits = 0;
 		arena = new int[ARENA_WIDTH][ARENA_HEIGHT];
+		states = new ArrayList<String>();
+		setAgent(0);
+		addRandomEnemy();
+
+		states.add(this.toString());
 	}
 
 	public void setAgent(int leftPos) {
@@ -42,22 +52,17 @@ public class TrackerWorld implements TrackerInterface {
 			arena[Math.abs(this.agentLeftPos % ARENA_WIDTH)][ARENA_HEIGHT-1] = 0;
 			arena[Math.abs((this.agentLeftPos+AGENT_SIZE) % ARENA_WIDTH)][ARENA_HEIGHT-1] = 1;
 		} else if(dx == -1) {
-			System.out.println(agentLeftPos);
-			System.out.println(Math.abs((this.agentLeftPos-1) % ARENA_WIDTH));
-			System.out.println(Math.abs((this.agentLeftPos+AGENT_SIZE-1) % ARENA_WIDTH)+"\n\n");
-
 			arena[Math.abs((this.agentLeftPos-1) % ARENA_WIDTH)][ARENA_HEIGHT-1] = 1;
 			arena[Math.abs((this.agentLeftPos+AGENT_SIZE-1) % ARENA_WIDTH)][ARENA_HEIGHT-1] = 0;
 		}
 
 		this.agentLeftPos += dx;
 		clocktick();
+		
+		states.add(this.toString());
 	}
 
 	public void clocktick() {
-		if(timestamp % ARENA_HEIGHT == 0) {
-			addRandomEnemy();
-		}
 
 		updateFallingBlocks();
 		timestamp += 1;
@@ -65,31 +70,42 @@ public class TrackerWorld implements TrackerInterface {
 
 	public void addRandomEnemy() {
 		enemySize = (int) (Math.random() * 6);
-		enemyLeftPos = (int) (Math.random() * ARENA_WIDTH);
-		enemyY = 0;
+		enemyLeftPos = (int) (Math.random() * (ARENA_WIDTH - enemySize));
 	}
 
 	public void updateFallingBlocks() {
+
 		try{
-			for(int i = enemyLeftPos; i < enemyLeftPos+enemySize; i++) {
-				arena[i][enemyY] = 0;
-			}
-
 
 			for(int i = enemyLeftPos; i < enemyLeftPos+enemySize; i++) {
+				if(enemyY != 0) {
+					arena[i][enemyY-1] = 0;
+				}
 				arena[i][enemyY] = 2;
 			}
 			enemyY += 1;
 
 		} catch(ArrayIndexOutOfBoundsException e) {
 
-		}
-		
+			for(int i = enemyLeftPos; i < enemyLeftPos+enemySize; i++) {
+				arena[i][ARENA_HEIGHT-1] = 0;
+			}
+			enemyY = 0;
 
+			addRandomEnemy();
+		}
 	}
 
-	public List getEnvironment() {
-		return null;
+	public boolean[] getEnvironment() { //left to right
+		boolean[] sensors = new boolean[AGENT_SIZE];
+
+		int enemyRightPos = enemyLeftPos+enemySize;
+
+		for(int i = enemyLeftPos, j = 0; i <= enemyRightPos; i++, j++) {
+			sensors[j] = agentLeftPos == enemyLeftPos+i;
+		}
+
+		return sensors;
 	}
 
 	public String toString() {
@@ -111,5 +127,29 @@ public class TrackerWorld implements TrackerInterface {
 		sb.append("]");
 
 		return sb.toString();
+	}
+
+	public String allStatesToJSON() {
+		return states.toString();
+	}
+
+	public void printToFile() {
+		try {
+			PrintWriter writer = new PrintWriter("src/main/javascript/tracker/output.txt", "UTF-8");
+			writer.println(this.allStatesToJSON());
+			writer.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void main(String[] args) {
+		World w = new World();
+
+		for(int i = 0; i < 1000; i++) {
+			w.doMove(1);
+		}
+
+		w.printToFile();
 	}
 }
