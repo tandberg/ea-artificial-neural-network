@@ -26,7 +26,7 @@ $(document).ready(function() {
             if(i === maps.length)
                 clearInterval(interval);
 
-        }, 1000);
+        }, 500);
     });
 
     $('.fileinput').click(function(e) {
