@@ -54,6 +54,10 @@ class Agent(val genotype: Array[Int]) extends Genotype{
 		this(FlatLandHelpers.cross(o1.genotype, o2.genotype, crossOverRate))
 	}
 
+	def this(o1:Genotype, o2:Genotype, crossOverRate:Double) = {
+		this(FlatLandHelpers.cross(o1.getArray, o2.getArray, crossOverRate))
+	}
+
 	override def done(size: Int): Boolean = ???
 	override def fitness(): Double = {
 		val random = new Random()
