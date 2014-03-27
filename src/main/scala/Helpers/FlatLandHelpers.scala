@@ -1,7 +1,7 @@
 package Helpers
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
-
+import scala.collection.mutable.ArrayBuffer
 object FlatLandHelpers {
 
 	val bitstringpercision = 8
@@ -40,17 +40,17 @@ object FlatLandHelpers {
 
 	def cross(parent1Array: Array[Int], parent2Array: Array[Int], crossOverRate:Double): Array[Int] = {
 		val random = new Random()
-		var childArray:Array[Int] = Array()
+		var childArray:ArrayBuffer[Int] = ArrayBuffer()
 		if (random.nextDouble() >= crossOverRate){
 			for (i <- 0 to parent1Array.length - 1) {
 				if (random.nextBoolean()){
-					childArray(i) = parent1Array(i)
+					childArray += parent1Array(i)
 				}
 				else {
-					childArray(i) = parent2Array(i)
+					childArray += parent2Array(i)
 				}
 			}
-			return childArray
+			return childArray.toArray
 		}
 		else {
 			return parent1Array

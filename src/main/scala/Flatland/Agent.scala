@@ -64,11 +64,9 @@ class Agent(val genotype: Array[Int]) extends Genotype{
 		while (!world.finished){
 			val lol =  world.getEnvironment
 			inputToSensorNeurons(lol)
-			println(lol.toList)
 			val out = brainNetwork.search
 			var index = out._2
 			var listen = out._1
-			println(listen)
 			if (listen == List(-1.0, -1.0, -1.0)){		
 				index = random.nextInt(3)
 			}

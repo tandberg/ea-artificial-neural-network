@@ -143,7 +143,6 @@ public class World {
 					newState = 'l';
 				}
 			}
-			System.out.println(newState);
 
 
 			if(map[Y + dy][X + dx].equals("p")) {
@@ -160,7 +159,6 @@ public class World {
 			states.add(this.toString());
 
 		} catch(ArrayIndexOutOfBoundsException e) {
-			System.out.println("Illegal move");
 		}
 		
 	}

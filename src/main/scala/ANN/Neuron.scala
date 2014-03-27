@@ -11,7 +11,6 @@ class Neuron(val activationFunction: (Double) => Boolean, val label: String) {
 	def activate() = {
 	//	println("activate called in neuron " + label)
 		if (activationFunction(sumOfWeights)) { 
-			println("activated: " + label + " " + sumOfWeights.toString)
 			1
 		}
 		else 0
