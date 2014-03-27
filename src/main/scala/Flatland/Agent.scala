@@ -106,7 +106,12 @@ class Agent(val genotype: Array[Int]) extends Genotype{
 	}
 
 	override def compareTo(other: Genotype):Int = {
-        if (fitness() > other.fitness()) -1 else 1
+        if (fitness() > other.fitness()) 
+        	-1 
+        else if (fitness == other.fitness)
+        	0
+        else 
+        	1
 
 	}
 	

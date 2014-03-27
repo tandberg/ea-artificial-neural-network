@@ -11,6 +11,7 @@ public class World {
 	public static final int MAX_MOVES = 50;
 	private int food;
 	private int poison;
+	private int steps;
 
 	private static final double FOOD_PERCENT = 0.5;
 	private static final double POISON_PERCENT = 0.5;
@@ -25,10 +26,11 @@ public class World {
 
 		food = 0;
 		poison = 0;
+		steps = 0;
 	}
 
 	public String[][] readMap() {
-		return map1(); //createMap();
+		return map2(); //createMap();
 	}
 
 	public void locatePlayer() {
@@ -43,7 +45,7 @@ public class World {
 	}
 
 	public boolean finished() {
-		return states.size() >= MAX_MOVES;
+		return states.size() >= MAX_MOVES || steps >= 1000;
 	}
 
 	public int[] getScores() { // [+, -]
@@ -62,6 +64,7 @@ public class World {
 	}
 
 	public void doMove(char move) {
+		steps++;
 		char prevState = map[Y][X].charAt(1);
 
 		if(prevState == 'f') {
@@ -279,6 +282,20 @@ public class World {
 		    {"", "", "", "", "p", "", "", ""},
 		    {"", "", "", "", "", "", "", ""},
 		    {"", "", "", "", "", "", "", ""}
+		};
+		return map;
+	}
+
+		public static String[][] map2() {
+		String[][] map = {
+		    {"", "", "", "p", "", "", "", ""},
+		    {"", "", "p", "p", "p", "", "", ""},
+		    {"p", "", "f", "", "", "p", "f", ""},
+		    {"", "", "", "", "p", "p", "f", ""},
+		    {"f", "", "rf", "", "", "", "", "p"},
+		    {"", "p", "", "p", "", "", "", "f"},
+		    {"", "", "", "", "p", "", "p", ""},
+		    {"", "", "p", "", "f", "", "", "p"}
 		};
 		return map;
 	}

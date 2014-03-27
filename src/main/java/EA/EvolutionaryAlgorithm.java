@@ -7,9 +7,10 @@ public class EvolutionaryAlgorithm {
 
     public final static Random random = new Random();
 
-    private final static int POPULATION                 = 30;               // Size of the population
+    private final static int POPULATION                 = 200;               // Size of the population
     private final static int SIZE                       = 40;               // Number of bits. 0 and 1 in each individual
-    private final static int MAX_ITERATIONS             = 100;
+    private final static int MAX_ITERATIONS             = 500;
+
     private final static int OVER_PRODUCTION_CHILDREN   = POPULATION * 2;
     private final static int ELITISM                    = 5;
     private final static int TOURNAMENT_SIZE            = 4;
@@ -42,6 +43,10 @@ public class EvolutionaryAlgorithm {
         initializePopulation();
         runLoop();
 
+        System.out.println("Best fitness: " + population.get(0).fitness());
+
+       ((Agent)population.get(0)).printToFile();
+
         if(USE_STATISTICS)
             System.out.println("\n"+ statistics);
     }
@@ -69,7 +74,7 @@ public class EvolutionaryAlgorithm {
             statistics.updateStatistics(population);
         
         while(MAX_ITERATIONS > (++iteration)) {
-
+            System.out.println(iteration);
             List<Genotype> children = new ArrayList<Genotype>();
             Tuple[] wheel;
             switch (PARENT_MATE_SELECTION_MECHANISM) {
