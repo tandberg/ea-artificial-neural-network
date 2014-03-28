@@ -42,7 +42,7 @@ $(document).ready(function() {
                 if(i === response.length)
                     clearInterval(interval);
 
-            }, 800);
+            }, 300);
         });
     })
 
