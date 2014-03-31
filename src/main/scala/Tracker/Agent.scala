@@ -28,7 +28,6 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 	def this(parent1: Genotype, parent2: Genotype, crossoverRate:Double) = this(TrackerHelpers.cross(parent1.getArray, parent2.getArray, crossoverRate))
 	val brainNetwork = new NeuralNetwork	
 
-	def compareTo(x$1: EA.Genotype): Int = ???
 
 	val world = new World(seed)	
  	def done(x$1: Int): Boolean = ???
@@ -69,7 +68,7 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 	}
 
 	override def compareTo(other:Genotype):Int = {
-		if (fitness2 > other.fitness2)
+		if (fitness2 > other.asInstanceOf[Agent].fitness2)
 			-1
 		else if (fitness == other.fitness)
 			0
