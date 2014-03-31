@@ -1,6 +1,21 @@
 package Helpers
+import scala.util.Random
+
 
 object TrackerHelpers {
+
+	val bitstringpercision = 8
+
+	def generateRandomBitString = {
+
+		val length = 34 * bitstringpercision
+		var bitString = Array[Int]() 
+		val random = new Random()
+		for (i <- 0 to length-1) {
+			bitString = bitString :+ random.nextInt(2)	
+		}
+		bitString
+	}
 
 	def bitToBase10(array: Array[Int]) = {
 		var x = 0.0
@@ -49,7 +64,4 @@ object TrackerHelpers {
 
 		Map("weights" -> w.toList, "biases" -> b.toList, "gains" -> g.toList, "timeconstants" -> t.toList)
 	}
-
-
-
 }
