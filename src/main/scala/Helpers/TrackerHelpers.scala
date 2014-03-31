@@ -84,4 +84,11 @@ object TrackerHelpers {
 		}
 	}
 
+	def indexToMove(index: Int):Int = {
+		if (index == 0){
+			return -1
+		}
+		return 1
+	}
+
 }
