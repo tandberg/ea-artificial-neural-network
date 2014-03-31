@@ -14,6 +14,8 @@ public class World {
 	private final static int ARENA_WIDTH = 30;
 	private final static int ARENA_HEIGHT = 15;
 
+	private final static int MAX_STEPS = 100;
+
 	private List<String> states;
 
 	private int timestamp;
@@ -98,6 +100,14 @@ public class World {
 				break;
 			}
 		}
+	}
+
+	public boolean finished() {
+		timestamp >= MAX_STEPS;
+	}
+
+	public int getScore() {
+		return score_hits;
 	}
 
 	public void addRandomEnemy() {

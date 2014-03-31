@@ -64,4 +64,24 @@ object TrackerHelpers {
 
 		Map("weights" -> w.toList, "biases" -> b.toList, "gains" -> g.toList, "timeconstants" -> t.toList)
 	}
+
+	def cross(parent1Array: Array[Int], parent2Array: Array[Int], crossOverRate:Double): Array[Int] = {
+		val random = new Random()
+		var childArray:ArrayBuffer[Int] = ArrayBuffer()
+		if (random.nextDouble() >= crossOverRate){
+			for (i <- 0 to parent1Array.length - 1) {
+				if (random.nextBoolean()){
+					childArray += parent1Array(i)
+				}
+				else {
+					childArray += parent2Array(i)
+				}
+			}
+			return childArray.toArray
+		}
+		else {
+			return parent1Array
+		}
+	}
+
 }
