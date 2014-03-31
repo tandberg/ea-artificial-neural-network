@@ -9,7 +9,7 @@ public class EvolutionaryAlgorithm {
 
     private final static int POPULATION                 = 200;               // Size of the population
     private final static int SIZE                       = 40;               // Number of bits. 0 and 1 in each individual
-    private final static int MAX_ITERATIONS             = 500;
+    private final static int MAX_ITERATIONS             = 300;
 
     private final static int OVER_PRODUCTION_CHILDREN   = POPULATION * 2;
     private final static int ELITISM                    = 5;
@@ -46,6 +46,7 @@ public class EvolutionaryAlgorithm {
         System.out.println("Best fitness: " + population.get(0).fitness());
 
        ((Agent)population.get(0)).printToFile();
+       System.out.println(Arrays.toString(((Agent)population.get(0)).weights()));
 
         if(USE_STATISTICS)
             System.out.println("\n"+ statistics);

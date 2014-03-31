@@ -119,6 +119,10 @@ class Agent(val genotype: Array[Int]) extends Genotype{
 		world.printToFile
 	}
 
+	def weights = {
+		FlatLandHelpers.bitStringToWeights(genotype, bitstringpercision)
+	}
+
 	wireUp(genotype)
 }
 
