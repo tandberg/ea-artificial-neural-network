@@ -57,4 +57,11 @@ class HelperTest extends FlatSpec with Matchers {
 		TrackerHelpers.convertOne(bitarray, max, min) should equal (16)
 
 	}
+
+	"Convertall to all max" should "max all to all max" in {
+		val bitarray = Array(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
+		val precision = 4
+
+		TrackerHelpers.bitStringConverter(bitarray, precision) should equal (Map("weights" -> List(5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0), "biases" -> List(0.0, 0.0, 0.0, 0.0), "gains" -> List(5.0, 5.0, 5.0, 5.0), "timeconstants" -> List(2.0, 2.0, 2.0, 2.0)))
+	}
 }

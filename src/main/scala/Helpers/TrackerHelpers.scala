@@ -23,7 +23,33 @@ object TrackerHelpers {
 	}
 
 	def bitStringConverter(array: Array[Int], bitstringprecision: Int) = {
-		//val splits = weightsArray.grouped(bitstringprecision)
+		val splits = array.grouped(bitstringprecision).toArray
+		println(splits.length)
+
+		val w:Array[Double] = new Array(22)
+		for(i <- 0 until 22) {
+			w(i) = convertOne(splits(i), 5, -5)
+		}
+
+		val b:Array[Double] = new Array(4)
+		for(i <- 0 until 4) {
+			println(i)
+			b(i) = convertOne(splits(i+22), 0, -10)
+		}
+
+		val g:Array[Double] = new Array(4)
+		for(i <- 0 until 4) {
+			g(i) = convertOne(splits(i+22+4), 5, 1)
+		}
+
+		val t:Array[Double] = new Array(4)
+		for(i <- 0 until 4) {
+			t(i) = convertOne(splits(i+22+4+4), 2, 1)
+		}
+
+		Map("weights" -> w.toList, "biases" -> b.toList, "gains" -> g.toList, "timeconstants" -> t.toList)
 	}
+
+
 
 }
