@@ -8,14 +8,14 @@ public class EvolutionaryAlgorithm {
 
     public final static Random random = new Random();
 
-    private final static int POPULATION                 = 200;               // Size of the population
+    private final static int POPULATION                 = 75;               // Size of the population
     private final static int SIZE                       = 40;               // Number of bits. 0 and 1 in each individual
     private final static int MAX_ITERATIONS             = 200;
 
     private final static int OVER_PRODUCTION_CHILDREN   = POPULATION * 2;
     private final static int ELITISM                    = 5;
-    private final static int TOURNAMENT_SIZE            = 4;
-    private final static double MUTATION_PERCENT        = 0.02;
+    private final static int TOURNAMENT_SIZE            = 10;
+    private final static double MUTATION_PERCENT        = 0.05;
     private final static double EPSILON                 = 0.2;
     public  final static double CROSSOVER_RATE          = 0.2;
 
@@ -78,7 +78,7 @@ public class EvolutionaryAlgorithm {
             statistics.updateStatistics(population);
         
         while(MAX_ITERATIONS > (++iteration)) {
-            System.out.println("Iteration: " + iteration);
+            System.out.println("Iteration: " + iteration + " - bestFitness: " + population.get(0).fitness());
             List<Genotype> children = new ArrayList<Genotype>();
             Tuple[] wheel;
             switch (PARENT_MATE_SELECTION_MECHANISM) {

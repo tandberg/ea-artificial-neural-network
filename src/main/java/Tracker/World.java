@@ -70,7 +70,7 @@ public class World {
 	public void doMove(int dx) {
 		this.agentLeftPos += dx;
 
-		if(this.agentLeftPos == -1) {
+		if(this.agentLeftPos <= -1) {
 			this.agentLeftPos = ARENA_WIDTH;
 		} else if(this.agentLeftPos >= ARENA_WIDTH) {
 			this.agentLeftPos = 0;

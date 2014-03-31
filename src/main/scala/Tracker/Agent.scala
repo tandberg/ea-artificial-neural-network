@@ -36,12 +36,13 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 			val env = world.getEnvironment
 			envToSensors(env)	
 			val out = brainNetwork.search
-			if (math.abs(out._1._1 - out._1._2 < 0.3){
+			if (math.abs(out._1(0) - out._1(1)) < 0.90){
 				world.doMove(0)
 			}
 			else{
 				world.doMove(TrackerHelpers.indexToMove(out._2))
 			}
+			brainNetwork.resetNeurons
 		}
 		fitness2 = world.getScore
 		fitness2
@@ -74,6 +75,7 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 
 	override def compareTo(other:Genotype):Int = {
 		var tempFitness = other.fitness()
+		var fitness2 = fitness()
 		if (fitness2 > tempFitness)
 			-1
 		else if (fitness2 == tempFitness)
@@ -84,7 +86,7 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 
 	def wireUp (bitString: Array[Int]) = {
 		brainNetwork clear
-		val phenotype:Map[String, List[Double]] = TrackerHelpers.bitStringConverter(bitString, 4)
+		val phenotype:Map[String, List[Double]] = TrackerHelpers.bitStringConverter(bitString, 8)
 		val weights:List[Double] = phenotype("weights")
 		val biases: List[Double] = phenotype("biases")
 		val gains: List[Double] = phenotype("gains")

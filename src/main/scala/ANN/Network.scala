@@ -35,7 +35,7 @@ class NeuralNetwork(){
 		link._3
 	}
 	def output = {
-		groups(2).map((x) => x.sumOfWeights)
+		groups(3).map((x) => x.sumOfWeights)
 	}
 	def search():(List[Double], Int) = {
 		for (neuron <- neurons){

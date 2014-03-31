@@ -21,7 +21,7 @@ class Agent(val genotype: Array[Int]) extends Genotype{
 	val brainNetwork = new NeuralNetwork
 	val bitstringpercision = 4
 	val world:World = new World
-
+	var fitness2:Double = _
 	brainNetwork addGroup (foodSensors ::: poisonSensors)
 	brainNetwork addGroup hiddenNeurons
 	brainNetwork addGroup outputNeurons
@@ -108,6 +108,7 @@ class Agent(val genotype: Array[Int]) extends Genotype{
 
 	override def compareTo(other: Genotype):Int = {
 		val tempFitness:Double = other.fitness()
+		val fitness2 = fitness()
        	if (fitness2 > tempFitness) 
         	-1 
        	else if (fitness2 == tempFitness)
