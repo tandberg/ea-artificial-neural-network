@@ -74,6 +74,7 @@ class Agent(val genotype: Array[Int]) extends Genotype{
 			brainNetwork.resetNeurons
 		}
 		val scores = world.getScores	
+		fitness2 = scores(0) - scores(1)
 		scores(0) - scores(1)
 	}
 
@@ -106,11 +107,12 @@ class Agent(val genotype: Array[Int]) extends Genotype{
 	}
 
 	override def compareTo(other: Genotype):Int = {
-        if (fitness() > other.fitness()) 
+		val tempFitness:Double = other.fitness()
+       	if (fitness2 > tempFitness) 
         	-1 
-        else if (fitness == other.fitness)
+       	else if (fitness2 == tempFitness)
         	0
-        else 
+       	else 
         	1
 
 	}

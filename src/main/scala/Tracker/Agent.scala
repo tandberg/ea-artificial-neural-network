@@ -36,7 +36,12 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 			val env = world.getEnvironment
 			envToSensors(env)	
 			val out = brainNetwork.search
-			world.doMove(TrackerHelpers.indexToMove(out._2))
+			if (math.abs(out._1._1 - out._1._2 < 0.3){
+				world.doMove(0)
+			}
+			else{
+				world.doMove(TrackerHelpers.indexToMove(out._2))
+			}
 		}
 		fitness2 = world.getScore
 		fitness2
@@ -68,9 +73,10 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 	}
 
 	override def compareTo(other:Genotype):Int = {
-		if (fitness2 > other.asInstanceOf[Agent].fitness2)
+		var tempFitness = other.fitness()
+		if (fitness2 > tempFitness)
 			-1
-		else if (fitness == other.fitness)
+		else if (fitness2 == tempFitness)
 			0
 		else 
 			1
