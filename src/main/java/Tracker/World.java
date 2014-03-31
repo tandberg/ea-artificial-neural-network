@@ -103,7 +103,7 @@ public class World {
 	}
 
 	public boolean finished() {
-		timestamp >= MAX_STEPS;
+		return timestamp >= MAX_STEPS;
 	}
 
 	public int getScore() {
