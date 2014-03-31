@@ -22,7 +22,7 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 	var bias:List[Neuron] = _
 	var hidden:List[Neuron] = _ 
 	var output:List[Neuron] = _
-	
+	var fitness2:Int = _	
 
 	def this() = this(TrackerHelpers.generateRandomBitString)
 	def this(parent1: Genotype, parent2: Genotype, crossoverRate:Double) = this(TrackerHelpers.cross(parent1.getArray, parent2.getArray, crossoverRate))
@@ -39,7 +39,8 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 			val out = brainNetwork.search
 			world.doMove(TrackerHelpers.indexToMove(out._2))
 		}
-		world.getScore
+		fitness2 = world.getScore
+		fitness2
 	}
 	def getArray(): Array[Int] = genotype 
 	def mutate(mutationRate: Double): Unit = {
@@ -64,9 +65,16 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 	}
 
 	def weights = {
-
 		Array(10,2)
+	}
 
+	override def compareTo(other:Genotype):Int = {
+		if (fitness2 > other.fitness2)
+			-1
+		else if (fitness == other.fitness)
+			0
+		else 
+			1
 	}
 
 	def wireUp (bitString: Array[Int]) = {
