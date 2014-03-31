@@ -1,6 +1,6 @@
 package Helpers
 import scala.util.Random
-
+import scala.collection.mutable.ArrayBuffer
 
 object TrackerHelpers {
 
@@ -63,6 +63,18 @@ object TrackerHelpers {
 		}
 
 		Map("weights" -> w.toList, "biases" -> b.toList, "gains" -> g.toList, "timeconstants" -> t.toList)
+	}
+	def mutateBitString(array: Array[Int], mutationRate:Double) = {
+		val random = new Random
+
+		def flip(num: Int): Int = {
+			if (random.nextDouble() < mutationRate){
+				if (num == 0) return 1
+				else return 0
+			}
+			num
+		}
+		array map (flip _)
 	}
 
 	def cross(parent1Array: Array[Int], parent2Array: Array[Int], crossOverRate:Double): Array[Int] = {
