@@ -1,4 +1,4 @@
-package TrackerGame;
+package Tracker;
 
 import java.util.*;
 import java.io.*;
@@ -24,85 +24,97 @@ public class World {
 	private int[][] arena;
 	private int score_hits;
 
-	public World() {
+	private Random random;
+
+	public World(long randomSeed) {
 		timestamp = 0;
 		score_hits = 0;
+		random = new Random(randomSeed);
 		arena = new int[ARENA_WIDTH][ARENA_HEIGHT];
 		states = new ArrayList<String>();
-		setAgent(0);
+		this.agentLeftPos = 0;
 		addRandomEnemy();
 
 		states.add(this.toString());
 	}
 
-	public void setAgent(int leftPos) {
-		this.agentLeftPos = leftPos;
-		for(int i = leftPos; i < leftPos + AGENT_SIZE; i++) {
+	private void clearBoard() {
+		for(int i = 0; i < ARENA_WIDTH; i++) {
+			for(int j = 0; j < ARENA_HEIGHT; j++) {
+				arena[i][j] = 0;
+			}
+		}
+	}
+
+	public void setAgent() {
+		for(int i = agentLeftPos; i < agentLeftPos + AGENT_SIZE; i++) {
 			int pos = i % ARENA_WIDTH;
 			arena[pos][ARENA_HEIGHT-1] = 1;
 		}
 	}
 
-	public void doMove(int dx) {
-		if(this.agentLeftPos == -1) {
-			this.agentLeftPos = ARENA_WIDTH+1;
+	public void setEnemy() {
+		try {
+			for(int i = enemyLeftPos; i < enemyLeftPos+enemySize; i++) {
+				arena[i][enemyY] += 2;
+			}
+		} catch(Exception e) {
+			enemyY = -1;
+			addRandomEnemy();
 		}
-
-		if(dx == 1) {
-			arena[Math.abs(this.agentLeftPos % ARENA_WIDTH)][ARENA_HEIGHT-1] = 0;
-			arena[Math.abs((this.agentLeftPos+AGENT_SIZE) % ARENA_WIDTH)][ARENA_HEIGHT-1] = 1;
-		} else if(dx == -1) {
-			arena[Math.abs((this.agentLeftPos-1) % ARENA_WIDTH)][ARENA_HEIGHT-1] = 1;
-			arena[Math.abs((this.agentLeftPos+AGENT_SIZE-1) % ARENA_WIDTH)][ARENA_HEIGHT-1] = 0;
-		}
-
-		this.agentLeftPos += dx;
-		clocktick();
 		
+	}
+
+	public void doMove(int dx) {
+		this.agentLeftPos += dx;
+
+		if(this.agentLeftPos == -1) {
+			this.agentLeftPos = ARENA_WIDTH;
+		} else if(this.agentLeftPos >= ARENA_WIDTH) {
+			this.agentLeftPos = 0;
+		}
+
+		clocktick();		
 		states.add(this.toString());
 	}
 
 	public void clocktick() {
-
-		updateFallingBlocks();
 		timestamp += 1;
+		clearBoard();
+		setAgent();
+		setEnemy();
+
+		this.enemyY += 1;
+
+		for(int i = 0; i < ARENA_WIDTH; i++) {
+			if(arena[i][ARENA_HEIGHT-1] == 3) {
+				System.out.println("Crash");
+
+				if(enemySize < AGENT_SIZE) {
+					score_hits += 1;
+				} else {
+					score_hits -= 1;
+				}
+				break;
+			}
+		}
 	}
 
 	public void addRandomEnemy() {
-		enemySize = (int) (Math.random() * 6);
-		enemyLeftPos = (int) (Math.random() * (ARENA_WIDTH - enemySize));
-	}
+		System.out.println("New enemy");
 
-	public void updateFallingBlocks() {
-
-		try{
-
-			for(int i = enemyLeftPos; i < enemyLeftPos+enemySize; i++) {
-				if(enemyY != 0) {
-					arena[i][enemyY-1] = 0;
-				}
-				arena[i][enemyY] = 2;
-			}
-			enemyY += 1;
-
-		} catch(ArrayIndexOutOfBoundsException e) {
-
-			for(int i = enemyLeftPos; i < enemyLeftPos+enemySize; i++) {
-				arena[i][ARENA_HEIGHT-1] = 0;
-			}
-			enemyY = 0;
-
-			addRandomEnemy();
-		}
+		enemySize = (int) (this.random.nextDouble() * 6) + 1;
+		enemyLeftPos = (int) (this.random.nextDouble() * (ARENA_WIDTH - enemySize));
 	}
 
 	public boolean[] getEnvironment() { //left to right
 		boolean[] sensors = new boolean[AGENT_SIZE];
 
-		int enemyRightPos = enemyLeftPos+enemySize;
-
-		for(int i = enemyLeftPos, j = 0; i <= enemyRightPos; i++, j++) {
-			sensors[j] = agentLeftPos == enemyLeftPos+i;
+		for(int i = 0; i < AGENT_SIZE; i++) {
+			int tmpPos = (agentLeftPos+i) % ARENA_WIDTH;
+			try {
+				sensors[i] = arena[tmpPos][enemyY-1] == 2;
+			} catch(ArrayIndexOutOfBoundsException e) {}
 		}
 
 		return sensors;
@@ -130,6 +142,7 @@ public class World {
 	}
 
 	public String allStatesToJSON() {
+		System.out.println("Final score: " + score_hits);
 		return states.toString();
 	}
 
@@ -144,10 +157,10 @@ public class World {
 	}
 
 	public static void main(String[] args) {
-		World w = new World();
+		World w = new World(1);
 
 		for(int i = 0; i < 1000; i++) {
-			w.doMove(1);
+			w.doMove(-1);
 		}
 
 		w.printToFile();
