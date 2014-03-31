@@ -14,7 +14,7 @@ public class World {
 	private final static int ARENA_WIDTH = 30;
 	private final static int ARENA_HEIGHT = 15;
 
-	private final static int MAX_STEPS = 100;
+	private final static int MAX_STEPS = 200;
 
 	private List<String> states;
 
@@ -90,7 +90,7 @@ public class World {
 
 		for(int i = 0; i < ARENA_WIDTH; i++) {
 			if(arena[i][ARENA_HEIGHT-1] == 3) {
-				System.out.println("Crash");
+				// System.out.println("Crash");
 
 				if(enemySize < AGENT_SIZE) {
 					score_hits += 1;
@@ -111,7 +111,7 @@ public class World {
 	}
 
 	public void addRandomEnemy() {
-		System.out.println("New enemy");
+		// System.out.println("New enemy");
 
 		enemySize = (int) (this.random.nextDouble() * 6) + 1;
 		enemyLeftPos = (int) (this.random.nextDouble() * (ARENA_WIDTH - enemySize));
@@ -152,7 +152,7 @@ public class World {
 	}
 
 	public String allStatesToJSON() {
-		System.out.println("Final score: " + score_hits);
+		// System.out.println("Final score: " + score_hits);
 		return states.toString();
 	}
 

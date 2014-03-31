@@ -39,7 +39,6 @@ object TrackerHelpers {
 
 	def bitStringConverter(array: Array[Int], bitstringprecision: Int) = {
 		val splits = array.grouped(bitstringprecision).toArray
-		println(splits.length)
 
 		val w:Array[Double] = new Array(22)
 		for(i <- 0 until 22) {
@@ -48,7 +47,6 @@ object TrackerHelpers {
 
 		val b:Array[Double] = new Array(4)
 		for(i <- 0 until 4) {
-			println(i)
 			b(i) = convertOne(splits(i+22), 0, -10)
 		}
 

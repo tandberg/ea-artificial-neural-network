@@ -9,5 +9,7 @@ public abstract class Genotype implements Comparable<Genotype> {
     public abstract boolean done(int size);
     public abstract double sum();
 
+    public abstract void printToFile();
+    public abstract double[] weights();
 
 }

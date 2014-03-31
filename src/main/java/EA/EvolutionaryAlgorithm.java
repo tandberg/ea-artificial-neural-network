@@ -2,6 +2,7 @@ package EA;
 
 import java.util.*;
 import Flatland.*;
+import Tracker.*;
 
 public class EvolutionaryAlgorithm {
 
@@ -9,7 +10,7 @@ public class EvolutionaryAlgorithm {
 
     private final static int POPULATION                 = 200;               // Size of the population
     private final static int SIZE                       = 40;               // Number of bits. 0 and 1 in each individual
-    private final static int MAX_ITERATIONS             = 300;
+    private final static int MAX_ITERATIONS             = 200;
 
     private final static int OVER_PRODUCTION_CHILDREN   = POPULATION * 2;
     private final static int ELITISM                    = 5;
@@ -26,6 +27,8 @@ public class EvolutionaryAlgorithm {
 
     private static boolean SELECT_USE_CASES             = false;
     private static boolean USE_STATISTICS               = false;
+
+    private static boolean USE_TRACKER_PROBLEM          = true;
 
     public EvolutionaryAlgorithm() {
 
@@ -45,8 +48,8 @@ public class EvolutionaryAlgorithm {
 
         System.out.println("Best fitness: " + population.get(0).fitness());
 
-       ((Agent)population.get(0)).printToFile();
-       System.out.println(Arrays.toString(((Agent)population.get(0)).weights()));
+       population.get(0).printToFile();
+       System.out.println(Arrays.toString(population.get(0).weights()));
 
         if(USE_STATISTICS)
             System.out.println("\n"+ statistics);
@@ -75,7 +78,7 @@ public class EvolutionaryAlgorithm {
             statistics.updateStatistics(population);
         
         while(MAX_ITERATIONS > (++iteration)) {
-            System.out.println(iteration);
+            System.out.println("Iteration: " + iteration);
             List<Genotype> children = new ArrayList<Genotype>();
             Tuple[] wheel;
             switch (PARENT_MATE_SELECTION_MECHANISM) {
@@ -144,11 +147,17 @@ public class EvolutionaryAlgorithm {
     }
 
     private Genotype newChild(Genotype parent1, Genotype parent2) {
-        return new Agent(parent1, parent2, CROSSOVER_RATE);
+        if(USE_TRACKER_PROBLEM) {
+            return new Tracker.Agent(parent1, parent2, CROSSOVER_RATE);
+        }
+        return new Flatland.Agent(parent1, parent2, CROSSOVER_RATE);
     }
 
     private Genotype newRandomChild() {
-        return new Agent();
+        if(USE_TRACKER_PROBLEM) {
+            return new Tracker.Agent();
+        }
+        return new Flatland.Agent();
     }
 
     private void initializePopulation() {
