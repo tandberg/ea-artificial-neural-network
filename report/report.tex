@@ -7,8 +7,8 @@
 \usepackage{graphicx}
 %\usepackage{verbatim}
 %\usepackage[margin=25mm]{geometry}
-%\setlength{\parskip}{\medskipamount}
-%\setlength{\parindent}{0pt}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
 
 \begin{document}
 
@@ -17,7 +17,19 @@
 \date{\today}
 \maketitle
 
+\section{System overview}
+The code is written in Scala and Java. To build this project we used a tool called Simple Build Tool (sbt) \cite{sbt}. As visualization for both the Flatland and the Tracker problem we wrote the outputs of the agens as JSON to a output-file and visualizated the steps in the browser with help of javascript. 
+
 \input{assignment3/assignment3}
+\newpage
 \input{assignment4/assignment4}
+
+
+\begin{thebibliography}{9}
+
+\bibitem{sbt}
+  Simple Build Tool, http://www.scala-sbt.org/
+
+\end{thebibliography}
 
 \end{document}
