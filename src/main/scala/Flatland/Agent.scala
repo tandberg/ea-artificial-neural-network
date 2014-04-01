@@ -4,13 +4,15 @@ import ANN._
 import scala.util.Random
 import EA._
 import Helpers.FlatLandHelpers
+import scala.collection.mutable.ArrayBuffer
+
 class ConnectString(s: String, network:NeuralNetwork){
 	def connect(label:String, weight:Double) = {
 		network addLink(s, label, weight)
 	}
 
 }
-class Agent(val genotype: Array[Int]) extends Genotype{
+class Agent(val genotype: Array[Int], val runType:Boolean, val mapSeed:Long) extends Genotype{
 
 	implicit def stringToLinkMap(s: String) = new ConnectString(s, brainNetwork)
 
@@ -20,13 +22,39 @@ class Agent(val genotype: Array[Int]) extends Genotype{
 	val outputNeurons = List(new Neuron("of"), new Neuron("ol"), new Neuron("or"))	
 	val brainNetwork = new NeuralNetwork
 	val bitstringpercision = 4
-	val world:World = new World
+	var worlds:List[World] = _
 	var fitness2:Double = _
+
+	val poisonDist = 0.5
+	val foodDist = 0.5
+
 	brainNetwork addGroup (foodSensors ::: poisonSensors)
 	brainNetwork addGroup hiddenNeurons
 	brainNetwork addGroup outputNeurons
 	
-	def this() = this(FlatLandHelpers.generateRandomBitString)
+	def this(runType:Boolean, mapSeed:Long) = this(FlatLandHelpers.generateRandomBitString, runType, mapSeed)
+
+	def this(o1:Genotype, o2:Genotype, crossOverRate:Double, runType:Boolean, mapSeed:Long) = this(FlatLandHelpers.cross(o1.getArray, o2.getArray, crossOverRate), runType,mapSeed)
+
+
+
+
+	if(runType){
+		val staticWorldBuffer:ArrayBuffer[World] = new ArrayBuffer()
+		for (i <- 0 until 5){
+			staticWorldBuffer += new World(i + 1)
+		}
+		worlds = staticWorldBuffer.toList
+	}
+
+	else {
+		val randomWorldBuffer:ArrayBuffer[World] = new ArrayBuffer()
+		for (i <- 0 until 5){
+			randomWorldBuffer += new World(mapSeed, foodDist, poisonDist)
+		}
+		worlds = randomWorldBuffer.toList
+	}
+
 	def wireUp(bitString: Array[Int]) = {
 		brainNetwork clear
 		val weights = FlatLandHelpers.bitStringToWeights(bitString, bitstringpercision)
@@ -50,32 +78,28 @@ class Agent(val genotype: Array[Int]) extends Genotype{
 		"h3" connect ("or", weights(11))
 	}
 	
-	def this(o1: Agent, o2: Agent, crossOverRate:Double) =  {
-		this(FlatLandHelpers.cross(o1.genotype, o2.genotype, crossOverRate))
-	}
 
-	def this(o1:Genotype, o2:Genotype, crossOverRate:Double) = {
-		this(FlatLandHelpers.cross(o1.getArray, o2.getArray, crossOverRate))
-	}
 
 	override def done(size: Int): Boolean = ???
 	override def fitness(): Double = {
 		val random = new Random()
-		while (!world.finished){
-			val lol =  world.getEnvironment
-			inputToSensorNeurons(lol)
-			val out = brainNetwork.search
-			var index = out._2
-			var listen = out._1
-			if (listen == List(-1.0, -1.0, -1.0)){		
-				index = random.nextInt(3)
+		for (world:World <- worlds) {
+			while (!world.finished){
+				val lol =  world.getEnvironment
+				inputToSensorNeurons(lol)
+				val out = brainNetwork.search
+				var index = out._2
+				var listen = out._1
+				if (listen == List(-1.0, -1.0, -1.0)){		
+					index = random.nextInt(3)
+				}
+				world.doMove(FlatLandHelpers.indexToMove(index))
+				brainNetwork.resetNeurons
 			}
-			world.doMove(FlatLandHelpers.indexToMove(index))
-			brainNetwork.resetNeurons
-		}
-		val scores = world.getScores	
+		val scores = world.getScores
 		fitness2 = scores(0) - scores(1)
-		scores(0) - scores(1)
+		}	
+		fitness2
 	}
 
 	override def getArray(): Array[Int] = {
@@ -119,7 +143,7 @@ class Agent(val genotype: Array[Int]) extends Genotype{
 	}
 	
 	def printToFile = {
-		world.printToFile
+		// world.printToFile
 	}
 
 	def weights = {
@@ -132,10 +156,8 @@ class Agent(val genotype: Array[Int]) extends Genotype{
 object Agent {
 
 	def main(args: Array[String]) {
-		val ag = new Agent
-		val ag2 = new Agent
-		val ag3 = new Agent(ag, ag2, 1.0)
-		println(ag3.fitness)
+		val ag = new Agent(true, 12030123020L)
+		println(ag.fitness())
 	}
 }
 
