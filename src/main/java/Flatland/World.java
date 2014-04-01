@@ -13,24 +13,44 @@ public class World {
 	private int poison;
 	private int steps;
 
-	private static final double FOOD_PERCENT = 0.5;
-	private static final double POISON_PERCENT = 0.5;
+	private Random random;
 
-
-	public World() {
+	private World() {
 		states = new ArrayList<String>();
-		map = readMap();
-		locatePlayer();
-
-		states.add(this.toString());
-
 		food = 0;
 		poison = 0;
 		steps = 0;
 	}
 
-	public String[][] readMap() {
-		return map2(); //createMap();
+	public World(int maptype) { // static runs
+		this();
+		switch (maptype) {
+			case 1:
+				map = map1();
+				break;
+			case 2:
+				map = map2();
+				break;
+			case 3:
+				map = map3();
+				break;
+			case 4:
+				map = map4();
+				break;
+			default:
+				map = map5();
+		}
+
+		states.add(this.toString());
+		locatePlayer();
+	}
+	public World(long randomSeed, double food_percent, double poison_percent) { // dynamic runs
+		this();
+		this.random = new Random(randomSeed);
+		map = createMap(food_percent, poison_percent);
+
+		states.add(this.toString());
+		locatePlayer();
 	}
 
 	public void locatePlayer() {
@@ -249,18 +269,18 @@ public class World {
 		return states.toString();
 	}
 
-	public static String[][] createMap() {
+	public String[][] createMap(double poison_percent, double food_percent) {
 		int mapsize = 8;
 		String[][] map = new String[mapsize][mapsize];
-		Random r = new Random();
+
 		for(int i = 0; i < mapsize; i++) {
 			for(int j = 0; j < mapsize; j++) {
 
 				String tmp = "";
-				if(r.nextDouble() < POISON_PERCENT) {
+				if(random.nextDouble() < poison_percent) {
 					tmp = "p";
 				}
-				if(r.nextDouble() < FOOD_PERCENT) {
+				if(random.nextDouble() < food_percent) {
 					tmp = "f";
 				}
 				map[i][j] = tmp;
@@ -286,7 +306,7 @@ public class World {
 		return map;
 	}
 
-		public static String[][] map2() {
+	public static String[][] map2() {
 		String[][] map = {
 		    {"", "", "", "p", "", "", "", ""},
 		    {"", "", "p", "p", "p", "", "", ""},
@@ -296,6 +316,48 @@ public class World {
 		    {"", "p", "", "p", "", "", "", "f"},
 		    {"", "", "", "", "p", "", "p", ""},
 		    {"", "", "p", "", "f", "", "", "p"}
+		};
+		return map;
+	}
+
+	public static String[][] map3() {
+		String[][] map = {
+		    {"rr", "f", "f", "f", "f", "f", "f", "f"},
+		    {"p", "p", "p", "p", "p", "p", "p", "f"},
+		    {"f", "f", "f", "f", "f", "f", "p", "f"},
+		    {"f", "p", "p", "p", "p", "f", "p", "f"},
+		    {"f", "p", "f", "f", "p", "f", "p", "f"},
+		    {"f", "p", "f", "f", "f", "f", "p", "f"},
+		    {"f", "p", "p", "p", "p", "p", "p", "f"},
+		    {"f", "f", "f", "f", "f", "f", "f", "f"}
+		};
+		return map;
+	}
+
+	public static String[][] map4() {
+		String[][] map = {
+		    {"p", "p", "p", "p", "p", "p", "p", "p"},
+		    {"p", "f", "f", "f", "f", "f", "f", "p"},
+		    {"p", "f", "", "", "", "", "f", "p"},
+		    {"p", "f", "", "", "", "", "f", "p"},
+		    {"p", "f", "rl", "", "", "", "f", "p"},
+		    {"p", "f", "", "", "", "", "f", "p"},
+		    {"p", "f", "f", "f", "f", "f", "f", "p"},
+		    {"p", "p", "p", "p", "p", "p", "p", "p"},
+		};
+		return map;
+	}
+
+	public static String[][] map5() {
+		String[][] map = {
+		    {"", "", "", "p", "p", "", "", ""},
+		    {"f", "", "f", "p", "p", "", "", ""},
+		    {"", "", "", "", "", "", "p", ""},
+		    {"f", "", "p", "", "", "f", "", ""},
+		    {"", "f", "f", "p", "p", "", "", ""},
+		    {"f", "", "", "", "f", "", "", ""},
+		    {"", "", "", "f", "", "f", "p", "p"},
+		    {"", "", "", "", "", "", "rf", "p"},
 		};
 		return map;
 	}

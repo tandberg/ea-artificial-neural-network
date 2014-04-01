@@ -25,10 +25,12 @@ public class EvolutionaryAlgorithm {
     private List<Genotype> population;
     private Statistics statistics;
 
-    private static boolean SELECT_USE_CASES             = false;
-    private static boolean USE_STATISTICS               = false;
+    private final static boolean SELECT_USE_CASES             = false;
+    private final static boolean USE_STATISTICS               = false;
 
-    private static boolean USE_TRACKER_PROBLEM          = true;
+    private final static boolean FLATLAND_STATIC_RUNS         = true;
+    private final static long FLATLAND_DYNAMIC_SEED           = 123789;
+    private final static boolean USE_TRACKER_PROBLEM          = false;
 
     public EvolutionaryAlgorithm() {
 
@@ -150,14 +152,14 @@ public class EvolutionaryAlgorithm {
         if(USE_TRACKER_PROBLEM) {
             return new Tracker.Agent(parent1, parent2, CROSSOVER_RATE);
         }
-        return new Flatland.Agent(parent1, parent2, CROSSOVER_RATE);
+        return new Flatland.Agent(parent1, parent2, CROSSOVER_RATE, FLATLAND_STATIC_RUNS, FLATLAND_DYNAMIC_SEED);
     }
 
     private Genotype newRandomChild() {
         if(USE_TRACKER_PROBLEM) {
             return new Tracker.Agent();
         }
-        return new Flatland.Agent();
+        return new Flatland.Agent(FLATLAND_STATIC_RUNS, FLATLAND_DYNAMIC_SEED);
     }
 
     private void initializePopulation() {
