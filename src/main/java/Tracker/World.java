@@ -24,13 +24,16 @@ public class World {
 	private int enemyY;
 	private int enemySize;
 	private int[][] arena;
-	private int score_hits;
+
+	private int positives;
+	private int negatives;
 
 	private Random random;
 
 	public World(long randomSeed) {
 		timestamp = 0;
-		score_hits = 0;
+		positives = 0;
+		negatives = 0;
 		random = new Random(randomSeed);
 		arena = new int[ARENA_WIDTH][ARENA_HEIGHT];
 		states = new ArrayList<String>();
@@ -93,9 +96,9 @@ public class World {
 				// System.out.println("Crash");
 
 				if(enemySize < AGENT_SIZE) {
-					score_hits += 1;
+					positives += 1;
 				} else {
-					score_hits -= 1;
+					negatives += 1;
 				}
 				break;
 			}
@@ -107,7 +110,7 @@ public class World {
 	}
 
 	public int getScore() {
-		return score_hits;
+		return positives - negatives;
 	}
 
 	public void addRandomEnemy() {
