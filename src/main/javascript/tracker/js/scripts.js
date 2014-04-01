@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var paintMap = function(map) {
+    var paintMap = function(map, i) {
 
         $('#main').html('');
         _.each(map, function(row) {
@@ -14,10 +14,10 @@ $(document).ready(function() {
                 }
                 $('#main').append('<div class="cell '+c+'"></div>');
             });
-
             $('#main').append('</div>');
-
         });
+
+        $('.steps-left').html('Steps left: ' + i);
     };
 
     $('.play').click(function(e) {
@@ -42,7 +42,7 @@ $(document).ready(function() {
             var i = 0;
             var interval = setInterval(function() {
 
-                paintMap(response[i]);
+                paintMap(response[i], response.length - i - 1);
                 i++;
 
                 if(i === response.length)
