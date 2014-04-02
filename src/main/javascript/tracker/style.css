@@ -39,3 +39,7 @@ textarea {
 .enemy {
     background-color: #f00;
 }
+
+.intersect {
+    background-color: magenta;
+}
