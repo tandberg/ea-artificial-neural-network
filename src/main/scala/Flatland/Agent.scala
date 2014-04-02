@@ -25,8 +25,8 @@ class Agent(val genotype: Array[Int], val runType:Boolean, val mapSeed:Long) ext
 	var worlds:List[World] = _
 	var fitness2:Double = _
 
-	val poisonDist = 0.2
-	val foodDist = 0.3
+	val poisonDist = 0.5
+	val foodDist = 0.5
 
 	brainNetwork addGroup (foodSensors ::: poisonSensors)
 	brainNetwork addGroup hiddenNeurons
@@ -36,7 +36,13 @@ class Agent(val genotype: Array[Int], val runType:Boolean, val mapSeed:Long) ext
 
 	def this(o1:Genotype, o2:Genotype, crossOverRate:Double, runType:Boolean, mapSeed:Long) = this(FlatLandHelpers.cross(o1.getArray, o2.getArray, crossOverRate), runType,mapSeed)
 
-
+	def newWorld(seed: Long) = {
+		val randomWorldBuffer:ArrayBuffer[World] = new ArrayBuffer()
+		for (i <- 0 until 5){
+			randomWorldBuffer += new World(seed + i, foodDist, poisonDist)
+		}
+		worlds = randomWorldBuffer.toList
+	}
 
 
 	if(runType){
@@ -131,7 +137,7 @@ class Agent(val genotype: Array[Int], val runType:Boolean, val mapSeed:Long) ext
 		//set weights from bitStringToWeights
 		//simulate
 		//return score?
-		0.0
+		return fitness()
 	}
 
 	def inputToSensorNeurons(input: Array[Int]) = {
