@@ -23,6 +23,7 @@ public class World {
 	private int enemyLeftPos;
 	private int enemyY;
 	private int enemySize;
+	private int enemyHorizontal;
 	private int[][] arena;
 
 	private int positives;
@@ -61,9 +62,11 @@ public class World {
 	public void setEnemy() {
 		try {
 			for(int i = enemyLeftPos; i < enemyLeftPos+enemySize; i++) {
-				arena[i][enemyY] += 2;
+				arena[(ARENA_WIDTH + i) % ARENA_WIDTH][enemyY] += 2;
 			}
+			enemyLeftPos = (enemyLeftPos + enemyHorizontal) % ARENA_WIDTH;
 		} catch(Exception e) {
+			System.out.println("hei");
 			enemyY = -1;
 			addRandomEnemy();
 		}
@@ -118,6 +121,7 @@ public class World {
 
 		enemySize = (int) (this.random.nextDouble() * 6) + 1;
 		enemyLeftPos = (int) (this.random.nextDouble() * (ARENA_WIDTH - enemySize));
+		enemyHorizontal = (int) (this.random.nextInt(3) - 1);
 	}
 
 	public boolean[] getEnvironment() { //left to right
@@ -167,15 +171,5 @@ public class World {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static void main(String[] args) {
-		World w = new World(1);
-
-		for(int i = 0; i < 1000; i++) {
-			w.doMove(-1);
-		}
-
-		w.printToFile();
 	}
 }
