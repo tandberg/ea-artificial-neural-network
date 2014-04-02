@@ -36,7 +36,7 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 			val env = world.getEnvironment
 			envToSensors(env)	
 			val out = brainNetwork.search
-			if (math.abs(out._1(0) - out._1(1)) < 0.90){
+			if (math.abs(out._1(0) - out._1(1)) < 0.70){
 				world.doMove(0)
 			}
 			else{

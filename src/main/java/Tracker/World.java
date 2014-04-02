@@ -14,7 +14,7 @@ public class World {
 	private final static int ARENA_WIDTH = 30;
 	private final static int ARENA_HEIGHT = 15;
 
-	private final static int MAX_STEPS = 200;
+	private final static int MAX_STEPS = ARENA_HEIGHT * 40;
 
 	private List<String> states;
 
