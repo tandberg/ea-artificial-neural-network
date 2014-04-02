@@ -4,10 +4,10 @@ class Neuron(var activationFunction: (Double) => Double, val label: String, val 
 	var y: Double = 0
 
 	def this(label:String) = this(
-		(x) => if(0.5 < (1/(1 + math.exp(-x)))) 
+		(x) => if(0.5 <= (1/(1 + math.exp(-x)))) 
 			 1
 			else 
-			0
+			 0
 			, label, 0, 0)
 
 	def this(activationFunction:(Double) => Double, label:String) = this(activationFunction, label, 0, 0)
@@ -23,7 +23,6 @@ class Neuron(var activationFunction: (Double) => Double, val label: String, val 
 	if (gain > 0 && timeConstant > 0){
 		activationFunction = (s: Double) => {
 			def dy:Double = {
-				println(-y + s)
 				(1/timeConstant) * (-y + s)
 			}
 			val returnValue = 1 / (1 + math.exp(-gain * y))

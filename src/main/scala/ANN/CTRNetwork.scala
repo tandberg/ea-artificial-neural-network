@@ -46,7 +46,9 @@ class CTRNetwork {
 		}
 
 		val out = output1
-		(out, out.indexOf(out.max))
+		println(out)
+		readLine
+		((out(0) - out(1)) * 4).toInt
 	}
 	
 	def output1:List[Double] = {
@@ -57,7 +59,6 @@ class CTRNetwork {
 
 	def resetCTRNeurons = {
 		for (neuron <- neurons){
-//			println("label: " + neuron.label + " y: " + neuron.y + " sum: "  + neuron.sum)
 			neuron.reset
 		}
 

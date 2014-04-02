@@ -35,9 +35,10 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 		var i = 0
 		while(!world.finished){
 			val env = world.getEnvironment
-			envToSensors(env)	
+			envToSensors(env)
+			println(env.toList)
 			val out = brainNetwork.search
-			world.doMove(TrackerHelpers.indexToMove(out._2))
+			world.doMove(out)
 			brainNetwork.resetCTRNeurons
 			i += 1
 		}
@@ -58,6 +59,8 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 		for (i <- 0 to sensors.length - 1) {
 			if (sensorInput(i)){
 				sensors(i).sum = 1.0
+			}else {
+				sensors(i).sum = -1.0
 			}
 		}
 	}

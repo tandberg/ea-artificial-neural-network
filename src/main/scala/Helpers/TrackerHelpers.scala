@@ -25,7 +25,6 @@ object TrackerHelpers {
 				x += math.pow(2, array.length - i - 1)
 			}
 		}
-
 		x
 	}
 
@@ -94,8 +93,8 @@ object TrackerHelpers {
 		}
 	}
 
-	def indexToMove(index: Int):Int = {
-		if (index == 0){
+	def indexToMove(index: Double):Int = {
+		if (index > 0){
 			return -2
 		}
 		return 2
