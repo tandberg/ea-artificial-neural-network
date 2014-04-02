@@ -10,7 +10,7 @@ public class EvolutionaryAlgorithm {
 
     private final static int POPULATION                 = 75;               // Size of the population
     private final static int SIZE                       = 40;               // Number of bits. 0 and 1 in each individual
-    private final static int MAX_ITERATIONS             = 200;
+    private final static int MAX_ITERATIONS             = 100;
 
     private final static int OVER_PRODUCTION_CHILDREN   = POPULATION * 2;
     private final static int ELITISM                    = 5;
@@ -28,9 +28,10 @@ public class EvolutionaryAlgorithm {
     private final static boolean SELECT_USE_CASES             = false;
     private final static boolean USE_STATISTICS               = false;
 
-    private final static boolean FLATLAND_STATIC_RUNS         = true;
+    private final static boolean FLATLAND_STATIC_RUNS         = false;
     private final static long FLATLAND_DYNAMIC_SEED           = 123789;
-    private final static boolean USE_TRACKER_PROBLEM          = false;
+
+    private final static boolean USE_TRACKER_PROBLEM          = true;
 
     public EvolutionaryAlgorithm() {
 
