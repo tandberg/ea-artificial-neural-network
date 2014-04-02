@@ -32,7 +32,8 @@ $(document).ready(function() {
 
     $('.fileinput').click(function(e) {
 
-        $.getJSON('output.txt', function(response) {
+        var number = $(e.target).attr('data-js');
+        $.getJSON('output-'+number+'.txt', function(response) {
             console.log(response);
             var i = 0;
             var interval = setInterval(function() {

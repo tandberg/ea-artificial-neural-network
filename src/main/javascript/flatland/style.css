@@ -4,6 +4,13 @@
     height: 80px;
     display: inline-block;
 }
+.button-group {
+    width: 300px;
+    float: right;
+}
+.fileinput {
+    height: 30px;
+}
 
 #main {
     width: 100%;
