@@ -2,7 +2,7 @@ package Tracker
 import ANN._
 import EA._
 import Helpers._
-class ConnectString(s: String, network:NeuralNetwork) {
+class ConnectString(s: String, network:CTRNetwork) {
 	def connect(label:String, weight:Double) = {
 		network addLink(s, label, weight)	
 	}
@@ -18,15 +18,15 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 	
 	implicit def stringToLinkMap(s: String) = new ConnectString(s, brainNetwork)
 
-	var input:List[Neuron] = _ 
-	var bias:List[Neuron] = _
-	var hidden:List[Neuron] = _ 
-	var output:List[Neuron] = _
+	var input:List[CTRNeuron] = _ 
+	var bias:List[CTRNeuron] = _
+	var hidden:List[CTRNeuron] = _ 
+	var output:List[CTRNeuron] = _
 	var fitness2:Int = _	
 
 	def this() = this(TrackerHelpers.generateRandomBitString)
 	def this(parent1: Genotype, parent2: Genotype, crossoverRate:Double) = this(TrackerHelpers.cross(parent1.getArray, parent2.getArray, crossoverRate))
-	val brainNetwork = new NeuralNetwork	
+	val brainNetwork = new CTRNetwork	
 
 
 	val world = new World(seed)	
@@ -36,13 +36,8 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 			val env = world.getEnvironment
 			envToSensors(env)	
 			val out = brainNetwork.search
-			if (math.abs(out._1(0) - out._1(1)) < 0.90){
-				world.doMove(0)
-			}
-			else{
-				world.doMove(TrackerHelpers.indexToMove(out._2))
-			}
-			brainNetwork.resetNeurons
+			world.doMove(TrackerHelpers.indexToMove(out._2))
+			brainNetwork.resetCTRNeurons
 		}
 		fitness2 = world.getScore
 		fitness2
@@ -57,10 +52,10 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 	def toPhenotype(): String = ???
 
 	def envToSensors(sensorInput: Array[Boolean]) = {	
-		val sensors:List[Neuron] = input
+		val sensors:List[CTRNeuron] = input
 		for (i <- 0 to sensors.length - 1) {
 			if (sensorInput(i)){
-				sensors(i).sumOfWeights = 1
+				sensors(i).sum = 1.0
 			}
 		}
 	}
@@ -84,6 +79,7 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 			1
 	}
 
+
 	def wireUp (bitString: Array[Int]) = {
 		brainNetwork clear
 		val phenotype:Map[String, List[Double]] = TrackerHelpers.bitStringConverter(bitString, 8)
@@ -93,10 +89,10 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 		val timeconstants: List[Double] = phenotype("timeconstants")
 		
 
-	 	input = List(new Neuron("i1"), new Neuron("i2"), new Neuron("i3"), new Neuron("i4"), new Neuron("i5"))
-		bias = List(new Neuron((x:Double) => 1, "B"))
-		hidden = List(new Neuron("h1", gains(0) , timeconstants(0)), new Neuron("h2", gains(1), timeconstants(1)))
-		output = List(new Neuron("o1", gains(2), timeconstants(2)), new Neuron("o2", gains(3), timeconstants(3)))
+	 	input = List(new CTRNeuron("i1"), new CTRNeuron("i2"), new CTRNeuron("i3"), new CTRNeuron("i4"), new CTRNeuron("i5"))
+		bias = List(new CTRNeuron("B",(x:Double) => 1.0))
+		hidden = List(new CTRNeuron("h1", gains(0) , timeconstants(0)), new CTRNeuron("h2", gains(1), timeconstants(1)))
+		output = List(new CTRNeuron("o1", gains(2), timeconstants(2)), new CTRNeuron("o2", gains(3), timeconstants(3)))
 
 		brainNetwork addGroup input
 		brainNetwork addGroup bias
@@ -148,6 +144,7 @@ object Agent {
 	def main(args: Array[String]) {
 		val a = new Agent()
 		a.fitness()
+		a.printToFile
 	}
 	
 }

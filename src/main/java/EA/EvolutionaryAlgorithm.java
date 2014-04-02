@@ -30,7 +30,7 @@ public class EvolutionaryAlgorithm {
 
     private final static boolean FLATLAND_STATIC_RUNS         = true;
     private final static long FLATLAND_DYNAMIC_SEED           = 123789;
-    private final static boolean USE_TRACKER_PROBLEM          = false;
+    private final static boolean USE_TRACKER_PROBLEM          = true;
 
     public EvolutionaryAlgorithm() {
 

@@ -4,7 +4,7 @@ class Neuron(var activationFunction: (Double) => Double, val label: String, val 
 	var y: Double = 0
 
 	def this(label:String) = this(
-		(x) => if(0.5 <= (1/(1 + math.exp(-x)))) 
+		(x) => if(0.5 < (1/(1 + math.exp(-x)))) 
 			 1
 			else 
 			0
