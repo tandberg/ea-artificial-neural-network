@@ -41,17 +41,24 @@ class CTRNetwork {
 				neuron.∑((from output) * weight(link))
 			}
 		}
+		for (neuron <- neurons){
+			neuron.increaseY
+		}
+
 		val out = output1
 		(out, out.indexOf(out.max))
 	}
 	
 	def output1:List[Double] = {
+		for (neuron <- groups(3)){
+		}
 		groups(3).map((x) => x.activationFunction(x.output))
 	}
 
 	def resetCTRNeurons = {
 		for (neuron <- neurons){
-			neuron reset
+//			println("label: " + neuron.label + " y: " + neuron.y + " sum: "  + neuron.sum)
+			neuron.reset
 		}
 
 	}

@@ -23,6 +23,7 @@ class Neuron(var activationFunction: (Double) => Double, val label: String, val 
 	if (gain > 0 && timeConstant > 0){
 		activationFunction = (s: Double) => {
 			def dy:Double = {
+				println(-y + s)
 				(1/timeConstant) * (-y + s)
 			}
 			val returnValue = 1 / (1 + math.exp(-gain * y))

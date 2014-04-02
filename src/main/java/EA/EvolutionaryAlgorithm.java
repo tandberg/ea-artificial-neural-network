@@ -15,9 +15,9 @@ public class EvolutionaryAlgorithm {
     private final static int OVER_PRODUCTION_CHILDREN   = POPULATION * 2;
     private final static int ELITISM                    = 5;
     private final static int TOURNAMENT_SIZE            = 10;
-    private final static double MUTATION_PERCENT        = 0.05;
+    private final static double MUTATION_PERCENT        = 0.15;
     private final static double EPSILON                 = 0.2;
-    public  final static double CROSSOVER_RATE          = 0.2;
+    public  final static double CROSSOVER_RATE          = 0.85;
 
     private static int PARENT_MATE_SELECTION_MECHANISM;
     private static int ADULT_SELECTION;

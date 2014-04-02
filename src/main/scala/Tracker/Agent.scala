@@ -32,12 +32,14 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 	val world = new World(seed)	
  	def done(x$1: Int): Boolean = ???
 	def fitness(): Double = {
+		var i = 0
 		while(!world.finished){
 			val env = world.getEnvironment
 			envToSensors(env)	
 			val out = brainNetwork.search
 			world.doMove(TrackerHelpers.indexToMove(out._2))
 			brainNetwork.resetCTRNeurons
+			i += 1
 		}
 		fitness2 = world.getScore
 		fitness2
