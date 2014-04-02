@@ -1,6 +1,31 @@
 \section{Evolving Neural Networks for a Minimally-Cognitive Agent}
 \subsection{System overview}
+The class diagram of the system is described above, we used the same techniques to do the wiring from Agent to World as in the Flatland problem. The big difference in this problem was the network. \textcolor{red}{TODO: Write about the network implementation.}
 
+
+The genotype retrieved from the EA was splitted up into \textcolor{red}{4?}groups in the step of converting it to a phoenotype. This 4 groups is the main weights, bias, gain and time thresholds. Like in the Flatland agent the bits is converted to a number between the maximum and minimum for each value.
+
+\begin{center}
+\dots101010110{\LARGE11101010}111100101\dots
+\end{center}
+
+As an example, the raised binaries above (which is part of the weight group of 22 weights) will convert of one weight that will have a value of 4.18.
+
+\subsubsection{Parameters in the EA to evolve the CTRNN}
+\begin{center}
+\begin{tabular}{p{5cm} | r}
+\textbf{Parameter} & \textbf{Value} \\
+\hline
+Population & 75 \\
+Maximum iterations & 200 \\
+Elitism & 5 \\
+Tournament size & 10 \\
+Tournament epsilon & 0.2 \\
+Mutation percent & 0.05 \\
+Crossover rate & 0.2 \\
+\hline
+\end{tabular}
+\end{center}
 
 
 \subsection{Parameteres to catch all objects}
