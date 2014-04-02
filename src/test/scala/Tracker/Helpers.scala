@@ -64,4 +64,10 @@ class HelperTest extends FlatSpec with Matchers {
 
 		TrackerHelpers.bitStringConverter(bitarray, precision) should equal (Map("weights" -> List(5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0), "biases" -> List(0.0, 0.0, 0.0, 0.0), "gains" -> List(5.0, 5.0, 5.0, 5.0), "timeconstants" -> List(2.0, 2.0, 2.0, 2.0)))
 	}
+
+	"ConvertOne" should "convert 11101011 to x" in {
+		val bitarray = Array(1,1,1,0,1,0,1,0)
+		TrackerHelpers.convertOne(bitarray, 5, -5) should equal (4.1764705882352935)
+
+	}
 }

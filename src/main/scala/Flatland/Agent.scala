@@ -50,7 +50,7 @@ class Agent(val genotype: Array[Int], val runType:Boolean, val mapSeed:Long) ext
 	else {
 		val randomWorldBuffer:ArrayBuffer[World] = new ArrayBuffer()
 		for (i <- 0 until 5){
-			randomWorldBuffer += new World(mapSeed, foodDist, poisonDist)
+			randomWorldBuffer += new World(mapSeed + i, foodDist, poisonDist)
 		}
 		worlds = randomWorldBuffer.toList
 	}
@@ -83,6 +83,7 @@ class Agent(val genotype: Array[Int], val runType:Boolean, val mapSeed:Long) ext
 	override def done(size: Int): Boolean = ???
 	override def fitness(): Double = {
 		val random = new Random()
+		var tempFitness = 0
 		for (world:World <- worlds) {
 			while (!world.finished){
 				val lol =  world.getEnvironment
@@ -96,10 +97,10 @@ class Agent(val genotype: Array[Int], val runType:Boolean, val mapSeed:Long) ext
 				world.doMove(FlatLandHelpers.indexToMove(index))
 				brainNetwork.resetNeurons
 			}
-		val scores = world.getScores
-		fitness2 = scores(0) - scores(1)
+			val scores = world.getScores
+			tempFitness += (scores(0) - scores(1))
 		}	
-		fitness2
+		tempFitness
 	}
 
 	override def getArray(): Array[Int] = {
@@ -132,18 +133,23 @@ class Agent(val genotype: Array[Int], val runType:Boolean, val mapSeed:Long) ext
 
 	override def compareTo(other: Genotype):Int = {
 		val tempFitness:Double = other.fitness()
-		val fitness2 = fitness()
-       	if (fitness2 > tempFitness) 
+		val ownFitness:Double = fitness()
+       	if (ownFitness > tempFitness) 
         	-1 
-       	else if (fitness2 == tempFitness)
+       	else if (ownFitness == tempFitness)
         	0
-       	else 
+        else
         	1
+
 
 	}
 	
 	def printToFile = {
-		// world.printToFile
+		worlds(0).printToFile(0)
+		worlds(1).printToFile(1)
+		worlds(2).printToFile(2)
+		worlds(3).printToFile(3)
+		worlds(4).printToFile(4)
 	}
 
 	def weights = {

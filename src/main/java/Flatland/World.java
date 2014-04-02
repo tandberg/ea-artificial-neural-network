@@ -73,9 +73,9 @@ public class World {
 		return result;
 	}
 
-	public void printToFile() {
+	public void printToFile(int number) {
 		try {
-			PrintWriter writer = new PrintWriter("src/main/javascript/flatland/output.txt", "UTF-8");
+			PrintWriter writer = new PrintWriter("src/main/javascript/flatland/output-"+number+".txt", "UTF-8");
 			writer.println(this.allStatesToJSON());
 			writer.close();
 		} catch(Exception e) {
@@ -269,7 +269,7 @@ public class World {
 		return states.toString();
 	}
 
-	public String[][] createMap(double poison_percent, double food_percent) {
+	public String[][] createMap(double food_percent, double poison_percent) {
 		int mapsize = 8;
 		String[][] map = new String[mapsize][mapsize];
 
@@ -362,11 +362,11 @@ public class World {
 		return map;
 	}
 
-	public static void main(String[] args) {
-		World w = new World();
+	// public static void main(String[] args) {
+	// 	World w = new World();
 
-		System.out.println(Arrays.toString(w.getEnvironment()));
+	// 	System.out.println(Arrays.toString(w.getEnvironment()));
 
-		w.printToFile();
-	}
+	// 	w.printToFile();
+	// }
 }

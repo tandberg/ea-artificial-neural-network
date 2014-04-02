@@ -19,12 +19,12 @@ Crossover rate & 0.2 \\
 To find these parameters we tried dozens of complete runs, also with different parent mate selection and adult selection mechanisms. In the end we ended up using \textbf{Tournament selection} along with \textbf{Generation Mixing} in the Evolutionary algorithm to evolve a fairly good agent to move around in the Flatland world.
 
 \subsection{Fitness function}
-\begin{tabular}{l l}
-Food pickups & $\sim f$ \\
-Poison pickups & $\sim p$ \\
-\end{tabular}
+During the simulation of the robot in the flatland world we count the number of food pickups, $x$ and the number of poison pickups, $y$. 
+\begin{center}
+	$f(x, y) = x - y$
+\end{center}
 
-$f(simulation) = f - p$
+This fitness function is very simple, it takes the number of foods picked up and penalizes poison pickups with subtraction from the food pickups.
 
 \subsection{ANN design}
 
@@ -46,6 +46,19 @@ Where x is the sum of weights times each connected neurons activation (0 or 1).
 
 The weights is evolved from the evolutionary algorithm. The bitstring from the EA is splitted up in groups of 8 bits per weight and then converted into a number in the weight range. This is of course easy to change with parameters to have higher precision to the weights in the ANN, and we found out that 8 bits as one weight was a good number to produce good results. With $x$ bits to each weight, our network with 12 edges, the EA will have to deal with $12x$ bits.
 
-\subsection{Static vs dynamic runs}
-Hard coded runs vs $FPD(x, y)$ runs
+\subsection{Differences in performance of the EA on a static \\versus a dynamic run}
+
+TODO: Oppdatere disse grafene
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.8\textwidth]{img/Flatland_static}
+    \caption{Fitness plot for static run}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.8\textwidth]{img/Flatland_dynamic}
+    \caption{Fitness plot for dynamic run}
+\end{figure}
 
