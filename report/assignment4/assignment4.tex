@@ -27,9 +27,27 @@ Crossover rate & 0.2 \\
 \end{tabular}
 \end{center}
 
-\subsection{Fitness function}
+As in the Flatland problem we used \textbf{Tournament selection} along with \textbf{Generation Mixing} in the Evolutionary algorithm.
 
-$f(x,y,z) = xyz$
+\subsection{Fitness function}
+During the simulation of the Tracker problem, we count the following scores:
+
+\begin{tabular}{l | c | l}
+\textbf{Name} & \textbf{Variable} & \textbf{Comment} \\
+\hline
+Perfect hits & h & All of the objects parts have to be catched \\
+Partial hits & p & For example 2 out of 3 parts of the object catched \\
+Miss & m & Does not catch a object that is smaller than it self \\
+Negative & n & Catch a object of greater or equal of own size \\
+\hline
+\end{tabular}
+
+We tried some different coefficient in front of each parameter and these parameters worked out just fine.
+
+\begin{center}
+$f(h,p,m,n) = 2h + 0.7p - 1.2m - 2n$
+\end{center}
+
 
 \subsection{Parameteres to catch all objects}
 
