@@ -66,7 +66,6 @@ public class World {
 			}
 			enemyLeftPos = (enemyLeftPos + enemyHorizontal) % ARENA_WIDTH;
 		} catch(Exception e) {
-			System.out.println("hei");
 			enemyY = -1;
 			addRandomEnemy();
 		}

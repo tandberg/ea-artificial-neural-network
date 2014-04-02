@@ -11,6 +11,8 @@ $(document).ready(function() {
                     c = "me";
                 } else if (column === 2) {
                     c = "enemy"
+                } else if(column === 3) {
+                    c = "intersect"
                 }
                 $('#main').append('<div class="cell '+c+'"></div>');
             });
