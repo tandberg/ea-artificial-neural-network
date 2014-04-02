@@ -28,6 +28,8 @@ public class World {
 
 	private int positives;
 	private int negatives;
+	private int miss;
+	private int partialHits;
 
 	private Random random;
 
@@ -35,6 +37,9 @@ public class World {
 		timestamp = 0;
 		positives = 0;
 		negatives = 0;
+		partialHits = 0;
+		miss = 0;
+
 		random = new Random(randomSeed);
 		arena = new int[ARENA_WIDTH][ARENA_HEIGHT];
 		states = new ArrayList<String>();
@@ -93,17 +98,29 @@ public class World {
 
 		this.enemyY += 1;
 
+		int tmpHits = 0;
 		for(int i = 0; i < ARENA_WIDTH; i++) {
 			if(arena[i][ARENA_HEIGHT-1] == 3) {
-				// System.out.println("Crash");
-
-				if(enemySize < AGENT_SIZE) {
-					positives += 1;
-				} else {
-					negatives += 1;
-				}
-				break;
+				tmpHits++;
 			}
+		}
+
+		if(tmpHits == 0) {
+			for(int i = 0; i < ARENA_WIDTH; i++) {
+				if(arena[i][ARENA_HEIGHT-1] == 2 && enemySize < AGENT_SIZE) {
+					miss++;
+					break;
+				}
+			}	
+		}
+		
+
+		if(tmpHits >= AGENT_SIZE) {
+			negatives++;
+		} else if(tmpHits == enemySize) {
+			positives++;
+		} else if(tmpHits > 0) {
+			partialHits++;
 		}
 	}
 
@@ -112,7 +129,14 @@ public class World {
 	}
 
 	public int getScore() {
-		return positives - negatives;
+		/*
+			positives   = 100% hit of smaller objects
+			miss 	    = Smaller who did'nt hit
+			negatives   = Hits from >=AGENT_SIZE
+			partialHits = Hits on the edges
+		*/
+
+		return (int)((positives + 0.5 * partialHits) - miss - negatives);
 	}
 
 	public void addRandomEnemy() {
@@ -170,5 +194,15 @@ public class World {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void main(String[] args) {
+		World w = new World(1);
+		for(int i = 0; i < 100; i++) {
+			w.doMove(1);
+			w.getScore();
+		}
+
+		w.printToFile();
 	}
 }
