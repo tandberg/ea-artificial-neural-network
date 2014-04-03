@@ -48,8 +48,21 @@ We tried some different coefficient in front of each parameter and these paramet
 $f(h,p,m,n) = 2h + 0.7p - 1.2m - 2n$
 \end{center}
 
+\textcolor{red}{TODO: Fitness plot of one run}
 
 \subsection{Parameteres to catch all objects}
+To catch all types of objects it was just to modify the fitness function to penalize misses and give credits for negatives, in change from the other fitness function. The catch all fitness function we used was:
+
+\begin{center}
+$f(h,p,m,n) = h + n + p - m$
+\end{center}
+
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.8\textwidth]{img/catch_all}
+    \caption{20 runs with the catch all fitness function}
+\end{figure}
 
 
 \subsection{Significant modifications}
@@ -65,7 +78,7 @@ Feks weights in $[-100, 100]$
 \subsection{Weight analysis}
 tekst tekst tekst
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
     \includegraphics[width=1.0\textwidth]{img/CTRNN}
     \caption{The CTRNN network used in the Tracker agent}
