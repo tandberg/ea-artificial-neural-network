@@ -1,9 +1,18 @@
 \section{Evolving Neural Networks for a Minimally-Cognitive Agent}
 \subsection{System overview}
-The class diagram of the system is described above, we used the same techniques to do the wiring from Agent to World as in the Flatland problem. The big difference in this problem was the network. \textcolor{red}{TODO: Write about the network implementation.}
+The class diagram of the system is described above, we used the same techniques to do the wiring from Agent to World as in the Flatland problem. The big difference in this problem was the network due to the introduction of memory to the nodes.
+
+The network is divided into three classes; one to keep track of the adjacencylist, one to propagate values through the network, and a class neuron. The network is divided up in different layers, all of the outputvalues in one layer has to be calculated before we can start with the next.
+The values are propagated by iterating throught every neuron in the network and then listing up neurons that are connected to it, and then increasing the internal state by the output of the previous node multiplied by the weight of the connection, starting with the inputlayers, and ending with the motorlayer. 
 
 
-The genotype retrieved from the EA was splitted up into 4 groups in the step of converting it to a phoenotype. This 4 groups is the main weights, bias, gain and time thresholds. Like in the Flatland agent the bits is converted to a number between the maximum and minimum for each value.
+ We encountered a problem with the implementation because the sigmoidvalues outputted from the neurons was monotonically decreasing, this led to two different scenarios, one of such where one of the outputneurons consistently yielded a value close to one while the other yielded a value close to zero, thus led the tracker to only move to one side. The other scenario was that both the outputneurons yielded a value close to zero, leading to the tracker not to moving at all. We did not manage to solve the problem, leaving us with hiddenneurons without internal state. Therefore our tracker cannot differantiate between falling objects that are bigger than itself, however it is managing to tell whether an object is right above, we therefore managed to evolve catch-all-behaviour and avoid-all-behaviour. 
+
+
+\textcolor{red}{TODO: Write about the network implementation.}
+
+
+The genotype retrieved from the EA was splitted up into 4 groups in the step of converting it to a phoenotype. These 4 groups are the main weights, bias, gain and time thresholds. Like in the Flatland agent the bits is converted to a number between the maximum and minimum for each value.
 
 \begin{center}
 \dots101010110{\LARGE11101010}111100101\dots
