@@ -22,7 +22,7 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 	var bias:List[Neuron] = _
 	var hidden:List[Neuron] = _ 
 	var output:List[Neuron] = _
-	var fitness2:Int = _	
+	var fitness2:Double = _	
 
 	def this() = this(TrackerHelpers.generateRandomBitString)
 	def this(parent1: Genotype, parent2: Genotype, crossoverRate:Double) = this(TrackerHelpers.cross(parent1.getArray, parent2.getArray, crossoverRate))
@@ -38,7 +38,7 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 			val out = brainNetwork.search
 			val max = math.max(out._1(0), out._1(1))
 			val min = math.min(out._1(0), out._1(1))
-			val move = (math.abs(max)/(math.abs(max) + math.abs(min)) * TrackerHelpers.indexToMove(out._2)*4.5 * 1.5)
+			val move = (math.abs(max)/(math.abs(max) + math.abs(min)) * TrackerHelpers.indexToMove(out._2)*4.5 * 1.2)
 			world.doMove(move.toInt)
 			brainNetwork.resetNeurons
 		}
@@ -51,8 +51,12 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 		genotype = TrackerHelpers.mutateBitString(tempGen, mutationRate)
 		wireUp(genotype) 
 	}
-	def sum(): Double = ???
-	def toPhenotype(): String = ???
+	def sum(): Double = {
+		return fitness()
+	}
+	def toPhenotype(): String = {
+		"Tracker agent"
+	}
 
 	def envToSensors(sensorInput: Array[Boolean]) = {	
 		val sensors:List[Neuron] = input
@@ -69,6 +73,9 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 
 	def weights = {
 		Array(10,2)
+	}
+	override def toString = {
+		fitness2.toString
 	}
 
 	override def compareTo(other:Genotype):Int = {

@@ -26,7 +26,7 @@ public class EvolutionaryAlgorithm {
     private Statistics statistics;
 
     private final static boolean SELECT_USE_CASES             = false;
-    private final static boolean USE_STATISTICS               = false;
+    private final static boolean USE_STATISTICS               = true;
 
     private final static boolean FLATLAND_STATIC_RUNS         = false;
     private final static long FLATLAND_DYNAMIC_SEED           = 123789;
@@ -42,7 +42,7 @@ public class EvolutionaryAlgorithm {
             selectUsecases();
         } 
         else {
-            PARENT_MATE_SELECTION_MECHANISM = 2;
+            PARENT_MATE_SELECTION_MECHANISM = 3;
             ADULT_SELECTION = 3;
         }
         

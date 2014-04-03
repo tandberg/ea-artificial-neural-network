@@ -11,7 +11,7 @@ public class World {
 	private final static int FALLING_MIN = 1;
 	private final static int FALLING_MAX = 5;
 
-	private final static int ARENA_WIDTH = 60;
+	private final static int ARENA_WIDTH = 30;
 	private final static int ARENA_HEIGHT = 15;
 
 	private final static int MAX_STEPS = (ARENA_HEIGHT+1) * 40;
@@ -128,7 +128,7 @@ public class World {
 		return timestamp >= MAX_STEPS;
 	}
 
-	public int getScore() {
+	public double getScore() {
 		/*
 			positives   = 100% hit of smaller objects
 			miss 	    = Smaller who did'nt hit
@@ -136,7 +136,7 @@ public class World {
 			partialHits = Hits on the edges
 		*/
 
-		return (int)((positives + partialHits +  negatives) - miss);
+		return 2*positives + 0.7*partialHits - 1.2*miss -2*negatives;
 	}
 
 	public void addRandomEnemy() {

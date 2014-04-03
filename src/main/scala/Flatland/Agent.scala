@@ -112,7 +112,7 @@ class Agent(val genotype: Array[Int], val runType:Boolean, val mapSeed:Long) ext
 		//set weights from bitStringToWeights
 		//simulate
 		//return score?
-		0.0
+		return fitness()
 	}
 
 	def inputToSensorNeurons(input: Array[Int]) = {
