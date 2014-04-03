@@ -35,7 +35,7 @@ class NeuralNetwork(){
 		link._3
 	}
 	def output = {
-		groups(3).map((x) => x.sumOfWeights)
+		groups(2).map((x) => x.sumOfWeights)
 	}
 	def search():(List[Double], Int) = {
 		for (neuron <- neurons){
@@ -44,7 +44,8 @@ class NeuralNetwork(){
 				neuron.increaseSumOfWeights((from activate) * weight(link))
 			}
 		}
-		(output, output.indexOf(output.max))
+		val out = output
+		(out, out.indexOf(out.max))
 	}
 
 	def resetNeurons = {

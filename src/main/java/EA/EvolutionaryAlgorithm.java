@@ -10,7 +10,7 @@ public class EvolutionaryAlgorithm {
 
     private final static int POPULATION                 = 75;               // Size of the population
     private final static int SIZE                       = 40;               // Number of bits. 0 and 1 in each individual
-    private final static int MAX_ITERATIONS             = 100;
+    private final static int MAX_ITERATIONS             = 10;
 
     private final static int OVER_PRODUCTION_CHILDREN   = POPULATION * 2;
     private final static int ELITISM                    = 5;
@@ -42,7 +42,7 @@ public class EvolutionaryAlgorithm {
             selectUsecases();
         } 
         else {
-            PARENT_MATE_SELECTION_MECHANISM = 3;
+            PARENT_MATE_SELECTION_MECHANISM = 2;
             ADULT_SELECTION = 3;
         }
         

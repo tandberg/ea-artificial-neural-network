@@ -36,12 +36,10 @@ class Agent(var genotype: Array[Int]) extends Genotype {
 			val env = world.getEnvironment
 			envToSensors(env)	
 			val out = brainNetwork.search
-			if (math.abs(out._1(0) - out._1(1)) < 0.70){
-				world.doMove(0)
-			}
-			else{
-				world.doMove(TrackerHelpers.indexToMove(out._2))
-			}
+			val max = math.max(out._1(0), out._1(1))
+			val min = math.min(out._1(0), out._1(1))
+			val move = (math.abs(max)/(math.abs(max) + math.abs(min)) * TrackerHelpers.indexToMove(out._2)*4.5 * 1.5)
+			world.doMove(move.toInt)
 			brainNetwork.resetNeurons
 		}
 		fitness2 = world.getScore

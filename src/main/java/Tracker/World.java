@@ -11,10 +11,10 @@ public class World {
 	private final static int FALLING_MIN = 1;
 	private final static int FALLING_MAX = 5;
 
-	private final static int ARENA_WIDTH = 30;
+	private final static int ARENA_WIDTH = 60;
 	private final static int ARENA_HEIGHT = 15;
 
-	private final static int MAX_STEPS = ARENA_HEIGHT * 40;
+	private final static int MAX_STEPS = (ARENA_HEIGHT+1) * 40;
 
 	private List<String> states;
 
@@ -136,7 +136,7 @@ public class World {
 			partialHits = Hits on the edges
 		*/
 
-		return (int)((positives + 0.5 * partialHits) - miss - negatives);
+		return (int)((positives + partialHits +  negatives) - miss);
 	}
 
 	public void addRandomEnemy() {
