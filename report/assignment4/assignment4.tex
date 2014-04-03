@@ -85,7 +85,6 @@ We changed the conversion of the weights to have the range of $w_{i,j} \in [-100
 
 
 \subsection{Weight analysis}
-tekst tekst tekst
 
 
 Fitness = 43.0
@@ -108,9 +107,9 @@ w13 & w14 & w15 & w16 & w17 & w18 & w19 & w20 & w21 & bw0 & bw1 & bw2 & bw3 \\
 \end{tabular}
 
 
-
-\begin{tabular}{l | l}
-	input & ouput \\ \hline
+\begin{center}
+\begin{tabular}{l | r}
+	\textbf{Input} & \textbf{Output} \\ \hline
 	(0, 0, 0, 0, 0) & 2 \\
     (0, 0, 0, 0, 1) & 1  \\
     (0, 0, 1, 0, 0) & -2 \\
@@ -120,8 +119,7 @@ w13 & w14 & w15 & w16 & w17 & w18 & w19 & w20 & w21 & bw0 & bw1 & bw2 & bw3 \\
     (1, 1, 1, 0 ,0) & -1 \\
     (0, 0, 1, 1, 1) & 1  \\
 \end{tabular}
-
-
+\end{center}
 When no inputs are given we see that the trackers motor output is stabilizing on a constant value. Whenever an input is triggered the value is immediatly propagated through the network and changes the motoroutput. We can tell that the EA has evolved a tracker that preferred to just hit an object on the leftmost and rightmost blocks on the tracker. We can tell this by the weights w0 and w9, which have higher values than the others. When no inputs are given the biasnode is the one who decides where the tracker should go.
 
 
