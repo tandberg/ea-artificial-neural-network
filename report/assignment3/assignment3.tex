@@ -24,17 +24,17 @@ During the simulation of the robot in the flatland world we count the number of 
 	$f(x, y) = x - y$
 \end{center}
 
-This fitness function is very simple, it takes the number of foods picked up and penalizes poison pickups with subtraction from the food pickups.
+This fitness function is very simple, it takes the number of foods picked up and penalizes poison pickups with subtraction from the food pickups. 3 foods and 1 poison will result in a fitness of 2.
 
 \subsection{ANN design}
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
     \includegraphics[width=0.5\textwidth]{img/Flatland_network}
     \caption{Artificial Neural Network for the Flatland Agent.}
 \end{figure}
 
-Three hidden nodes represents the layer between the input sensors and the output nodes. The main idea of the hidden nodes is to understand that the poison is negative and food is positive for the final outputs. The food input sensors is linked to the ``same'' hidden node, while the poison input sensors is linked to the ``opposite'' hidden node. 
+Three hidden nodes represents the layer between the input sensors and the output nodes. The main idea of the hidden nodes is to understand that the poison is negative and food is positive for the final outputs. At first we tried to link the food input sensors to the ``same'' hidden node, while the poison input sensors is linked to the ``opposite'' hidden node. We ended up linking all from one layer to all nodes in the next layer, as shown in the figure above. This method gave the Flatland agent better results.
 
 The weights in this artificial neural network can have values $[-1, 1]$. Inside each neuron the Sigmoid function is used to calculate if the neuron is activated or not. The input to the Sigmoid function is the weight of each input node that is activated. The neuron will be activated if:
 
@@ -44,21 +44,25 @@ The weights in this artificial neural network can have values $[-1, 1]$. Inside 
 
 Where x is the sum of weights times each connected neurons activation (0 or 1).
 
-The weights is evolved from the evolutionary algorithm. The bitstring from the EA is splitted up in groups of 8 bits per weight and then converted into a number in the weight range. This is of course easy to change with parameters to have higher precision to the weights in the ANN, and we found out that 8 bits as one weight was a good number to produce good results. With $x$ bits to each weight, our network with 12 edges, the EA will have to deal with $12x$ bits.
+The weights is evolved from the evolutionary algorithm. The bitstring from the EA is splitted up in groups of 8 bits per weight and then converted into a number in the weight range. The first bit in the bit-group is the signbit to determine if the weight is positive or negative. This can be a point of failure in the EA because one bit can ruin it all, but it still made it to achieve ok results. This is of course easy to change with parameters to have higher precision to the weights in the ANN, and we found out that 8 bits as one weight was a good number to produce good relatively results. With $x$ bits to each weight, our network with 27 edges, the EA will have to deal with $27x$ bits. In our case this resolves to 216 bits per genotype.
+
+\newpage % !!!!!!
 
 \subsection{Differences in performance of the EA on a static \\versus a dynamic run}
-
-TODO: Oppdatere disse grafene
-
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
-    \includegraphics[width=0.8\textwidth]{img/Flatland_static}
+    \includegraphics[width=0.6\textwidth]{img/Flatland_static}
     \caption{Fitness plot for static run}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
-    \includegraphics[width=0.8\textwidth]{img/Flatland_dynamic}
+    \includegraphics[width=0.6\textwidth]{img/Flatland_dynamic}
     \caption{Fitness plot for dynamic run}
 \end{figure}
+
+We can see that in both cases the EA produces a relatively good best genotype very early in the simulation (around 40 iterations to achieve a fitness that holds for a high fitness). The development of the best genotype in the dynamic map run evolve to the positive at first and then varies from 60 to 90 until the end of the simulation. Random maps can potentially have foods with a ``fence'' of poison and so on. We can clearly see that the static maps have a safer learning rate than the randomly generated maps.
+
+
+Two of the static maps follow a very strict pattern for the agent to follow (actually a maze), this will affect the result from the more open spaced maps. The dynamic maps is randomly generated from the FPD of (0.5, 0.5), so the maximum fitness of the dynamic maps will be unknown due to the random function.
 

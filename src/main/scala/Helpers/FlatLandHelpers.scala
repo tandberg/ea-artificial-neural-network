@@ -5,7 +5,7 @@ import scala.collection.mutable.ArrayBuffer
 object FlatLandHelpers {
 
 	val bitstringpercision = 8
-	val numberOfWeights = 12
+	val numberOfWeights = 27
 
 	def generateRandomBitString = {
 

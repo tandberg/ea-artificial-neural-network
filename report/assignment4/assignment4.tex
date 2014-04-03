@@ -3,7 +3,7 @@
 The class diagram of the system is described above, we used the same techniques to do the wiring from Agent to World as in the Flatland problem. The big difference in this problem was the network. \textcolor{red}{TODO: Write about the network implementation.}
 
 
-The genotype retrieved from the EA was splitted up into \textcolor{red}{4?}groups in the step of converting it to a phoenotype. This 4 groups is the main weights, bias, gain and time thresholds. Like in the Flatland agent the bits is converted to a number between the maximum and minimum for each value.
+The genotype retrieved from the EA was splitted up into 4 groups in the step of converting it to a phoenotype. This 4 groups is the main weights, bias, gain and time thresholds. Like in the Flatland agent the bits is converted to a number between the maximum and minimum for each value.
 
 \begin{center}
 \dots101010110{\LARGE11101010}111100101\dots
@@ -27,11 +27,42 @@ Crossover rate & 0.2 \\
 \end{tabular}
 \end{center}
 
-\subsection{Fitness function}
+As in the Flatland problem we used \textbf{Tournament selection} along with \textbf{Generation Mixing} in the Evolutionary algorithm.
 
-$f(x,y,z) = xyz$
+\subsection{Fitness function}
+During the simulation of the Tracker problem, we count the following scores:
+
+\begin{tabular}{l | c | l}
+\textbf{Name} & \textbf{Variable} & \textbf{Comment} \\
+\hline
+Perfect hits & h & All of the objects parts have to be catched \\
+Partial hits & p & For example 2 out of 3 parts of the object catched \\
+Miss & m & Does not catch a object that is smaller than it self \\
+Negative & n & Catch a object of greater or equal of own size \\
+\hline
+\end{tabular}
+
+We tried some different coefficient in front of each parameter and these parameters worked out just fine.
+
+\begin{center}
+$f(h,p,m,n) = 2h + 0.7p - 1.2m - 2n$
+\end{center}
+
+\textcolor{red}{TODO: Fitness plot of one run}
 
 \subsection{Parameteres to catch all objects}
+To catch all types of objects it was just to modify the fitness function to penalize misses and give credits for negatives, in change from the other fitness function. The catch all fitness function we used was:
+
+\begin{center}
+$f(h,p,m,n) = h + n + p - m$
+\end{center}
+
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.8\textwidth]{img/catch_all}
+    \caption{20 runs with the catch all fitness function}
+\end{figure}
 
 
 \subsection{Significant modifications}
@@ -47,7 +78,7 @@ Feks weights in $[-100, 100]$
 \subsection{Weight analysis}
 tekst tekst tekst
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
     \includegraphics[width=1.0\textwidth]{img/CTRNN}
     \caption{The CTRNN network used in the Tracker agent}

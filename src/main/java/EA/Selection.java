@@ -3,6 +3,8 @@ package EA;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import Flatland.*;
+
 
 public class Selection {
 
@@ -27,7 +29,7 @@ public class Selection {
         return adults;
     }
 
-    public static List<Genotype> generationMixing(List<Genotype> adults, List<Genotype> children, int elistism) {
+    public static List<Genotype> generationMixing(List<Genotype> adults, List<Genotype> children, int elistism, long newseed) {
         ArrayList<Genotype> newPopulation = new ArrayList<Genotype>();
 
         Collections.sort(adults);
@@ -42,6 +44,14 @@ public class Selection {
         }
 
         adults = newPopulation;
+
+        if(!EvolutionaryAlgorithm.FLATLAND_STATIC_RUNS && !EvolutionaryAlgorithm.USE_TRACKER_PROBLEM) {
+            for(int i = 0; i < adults.size(); i++) {
+                Flatland.Agent a = (Flatland.Agent) adults.get(i);
+                a.newWorld(newseed);
+            }
+        }
+
         return adults;
     }
 

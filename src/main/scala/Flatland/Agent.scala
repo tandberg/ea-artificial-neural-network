@@ -36,7 +36,13 @@ class Agent(val genotype: Array[Int], val runType:Boolean, val mapSeed:Long) ext
 
 	def this(o1:Genotype, o2:Genotype, crossOverRate:Double, runType:Boolean, mapSeed:Long) = this(FlatLandHelpers.cross(o1.getArray, o2.getArray, crossOverRate), runType,mapSeed)
 
-
+	def newWorld(seed: Long) = {
+		val randomWorldBuffer:ArrayBuffer[World] = new ArrayBuffer()
+		for (i <- 0 until 5){
+			randomWorldBuffer += new World(seed + i, foodDist, poisonDist)
+		}
+		worlds = randomWorldBuffer.toList
+	}
 
 
 	if(runType){
@@ -60,22 +66,41 @@ class Agent(val genotype: Array[Int], val runType:Boolean, val mapSeed:Long) ext
 		val weights = FlatLandHelpers.bitStringToWeights(bitString, bitstringpercision)
 
 		"ff" connect ("h1", weights(0))
-		"fl" connect ("h2", weights(1))
-		"fr" connect ("h3", weights(2))
+		"ff" connect ("h2", weights(1))
+		"ff" connect ("h3", weights(2))
+
+		"fl" connect ("h1", weights(3))
+		"fl" connect ("h2", weights(4))
+		"fl" connect ("h3", weights(5))
+
+		"fr" connect ("h1", weights(6))
+		"fr" connect ("h2", weights(7))
+		"fr" connect ("h3", weights(8))
 		
-		"pf" connect ("h2", weights(3))
-		"pf" connect ("h3", weights(4))
+		"pf" connect ("h1", weights(9))
+		"pf" connect ("h2", weights(10))
+		"pf" connect ("h3", weights(11))
 
-		"pl" connect ("h1", weights(5))
-		"pl" connect ("h3", weights(6))
+		"pl" connect ("h1", weights(12))
+		"pl" connect ("h2", weights(13))
+		"pl" connect ("h3", weights(14))
 
-		"pr" connect ("h1", weights(7))
-		"pr" connect ("h2", weights(8))
+		"pr" connect ("h1", weights(15))
+		"pr" connect ("h2", weights(16))
+		"pr" connect ("h2", weights(17))
 
-		"h1" connect ("of", weights(9))
-		"h2" connect ("ol", weights(10))
-	
-		"h3" connect ("or", weights(11))
+		"h1" connect ("of", weights(18))
+		"h1" connect ("ol", weights(19))
+		"h1" connect ("or", weights(20))
+
+
+		"h2" connect ("of", weights(21))
+		"h2" connect ("ol", weights(22))
+		"h2" connect ("or", weights(23))
+
+		"h3" connect ("of", weights(24))
+		"h3" connect ("ol", weights(25))
+		"h3" connect ("or", weights(26))
 	}
 	
 
@@ -112,7 +137,7 @@ class Agent(val genotype: Array[Int], val runType:Boolean, val mapSeed:Long) ext
 		//set weights from bitStringToWeights
 		//simulate
 		//return score?
-		0.0
+		return fitness()
 	}
 
 	def inputToSensorNeurons(input: Array[Int]) = {

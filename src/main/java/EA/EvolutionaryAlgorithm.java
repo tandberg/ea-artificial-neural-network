@@ -15,9 +15,9 @@ public class EvolutionaryAlgorithm {
     private final static int OVER_PRODUCTION_CHILDREN   = POPULATION * 2;
     private final static int ELITISM                    = 5;
     private final static int TOURNAMENT_SIZE            = 10;
-    private final static double MUTATION_PERCENT        = 0.15;
+    private final static double MUTATION_PERCENT        = 0.05;
     private final static double EPSILON                 = 0.2;
-    public  final static double CROSSOVER_RATE          = 0.85;
+    public  final static double CROSSOVER_RATE          = 0.2;
 
     private static int PARENT_MATE_SELECTION_MECHANISM;
     private static int ADULT_SELECTION;
@@ -25,12 +25,12 @@ public class EvolutionaryAlgorithm {
     private List<Genotype> population;
     private Statistics statistics;
 
-    private final static boolean SELECT_USE_CASES             = false;
-    private final static boolean USE_STATISTICS               = false;
+    public final static boolean SELECT_USE_CASES             = false;
+    public final static boolean USE_STATISTICS               = true;
 
-    private final static boolean FLATLAND_STATIC_RUNS         = true;
-    private final static long FLATLAND_DYNAMIC_SEED           = 123789;
-    private final static boolean USE_TRACKER_PROBLEM          = true;
+    public final static boolean FLATLAND_STATIC_RUNS         = true;
+    public final static long FLATLAND_DYNAMIC_SEED           = 123789;
+    public final static boolean USE_TRACKER_PROBLEM          = false;
 
     public EvolutionaryAlgorithm() {
 
@@ -89,7 +89,7 @@ public class EvolutionaryAlgorithm {
                     for (int i = 0; i < (ADULT_SELECTION == 2 ? OVER_PRODUCTION_CHILDREN:POPULATION); i++) {
                         Genotype parent1 = Selection.rouletteWheel(wheel, population);
                         Genotype parent2 = Selection.rouletteWheel(wheel, population);
-                        Genotype child = newChild(parent1, parent2);
+                        Genotype child = newChild(parent1, parent2, iteration-1);
                         child.mutate(MUTATION_PERCENT);
                         children.add(child);
                     }
@@ -100,7 +100,7 @@ public class EvolutionaryAlgorithm {
                     for (int i = 0; i < (ADULT_SELECTION == 2 ? OVER_PRODUCTION_CHILDREN:POPULATION); i++) {
                         Genotype parent1 = Selection.rouletteWheel(wheel, population);
                         Genotype parent2 = Selection.rouletteWheel(wheel, population);
-                        Genotype child = newChild(parent1, parent2);
+                        Genotype child = newChild(parent1, parent2, iteration-1);
                         child.mutate(MUTATION_PERCENT);
                         children.add(child);
                     }
@@ -110,7 +110,7 @@ public class EvolutionaryAlgorithm {
                     for (int i = 0; i < (ADULT_SELECTION == 2 ? OVER_PRODUCTION_CHILDREN:POPULATION); i++) {
                         Genotype parent1 = Selection.tournamentSelection(population, TOURNAMENT_SIZE, EPSILON);
                         Genotype parent2 = Selection.tournamentSelection(population, TOURNAMENT_SIZE, EPSILON);
-                        Genotype child = newChild(parent1, parent2);
+                        Genotype child = newChild(parent1, parent2, iteration-1);
                         child.mutate(MUTATION_PERCENT);
                         children.add(child);
                     }
@@ -120,7 +120,7 @@ public class EvolutionaryAlgorithm {
                     for (int i = 0; i < (ADULT_SELECTION == 2 ? OVER_PRODUCTION_CHILDREN:POPULATION); i++) {
                         Genotype parent1 = Selection.rouletteWheel(wheel, population);
                         Genotype parent2 = Selection.rouletteWheel(wheel, population);
-                        Genotype child = newChild(parent1, parent2);
+                        Genotype child = newChild(parent1, parent2, iteration-1);
                         child.mutate(MUTATION_PERCENT);
                         children.add(child);
                     }
@@ -136,7 +136,7 @@ public class EvolutionaryAlgorithm {
                     population = Selection.overProduction(population, children);
                     break;
                 case 3:
-                    population = Selection.generationMixing(population, children, ELITISM);
+                    population = Selection.generationMixing(population, children, ELITISM, FLATLAND_DYNAMIC_SEED+iteration);
                     break;
                 default: System.exit(2);
             }
@@ -148,11 +148,11 @@ public class EvolutionaryAlgorithm {
         }
     }
 
-    private Genotype newChild(Genotype parent1, Genotype parent2) {
+    private Genotype newChild(Genotype parent1, Genotype parent2, int iteration) {
         if(USE_TRACKER_PROBLEM) {
             return new Tracker.Agent(parent1, parent2, CROSSOVER_RATE);
         }
-        return new Flatland.Agent(parent1, parent2, CROSSOVER_RATE, FLATLAND_STATIC_RUNS, FLATLAND_DYNAMIC_SEED);
+        return new Flatland.Agent(parent1, parent2, CROSSOVER_RATE, FLATLAND_STATIC_RUNS, FLATLAND_DYNAMIC_SEED+iteration);
     }
 
     private Genotype newRandomChild() {
